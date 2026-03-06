@@ -807,13 +807,14 @@ function _handleMenuAction(action) {
             try { window.toastr?.info('fae.desktop v1.0.0 by aceeenvw', 'fae.desktop'); } catch {}
             break;
         case 'disable':
-            desktop.disable();
+                        desktop.disable();
             break;
-        case 'open-settings': {
-            const $btn = $('#extensions_settings_button, .drawer-toggle[data-drawer="extensions"], #extensionsMenuButton').first();
-            if ($btn.length) $btn.trigger('click');
+            case 'open-settings': {
+            const $btn = $('#extensions-settings-button, #extensions_settings_button, .drawer-toggle[data-drawer="extensions"]').first();
+            if ($btn.length) { $btn.trigger('click'); _raiseSTPanel(); }
             break;
-        }
+                        }
+            
         case 'new-chat': {
             // Try multiple known ST selectors for starting a new chat
             const $newChat = $('#option_new_chat, .option_new_chat, [id*="new_chat"]').first();
@@ -831,13 +832,9 @@ function _handleMenuAction(action) {
             }
             break;
         }
-        case 'toggle-characters': {
-            const $charBtn = $('#rm_button_characters, .drawer-toggle[data-drawer="characters"], #rm_button_selected_ch, [data-drawer-toggle="characters"]').first();
-            if ($charBtn.length) {
-                $charBtn.trigger('click');
-            } else {
-                try { $('#right-nav-panel, .right-nav-panel').toggle(); } catch {}
-            }
+case 'toggle-characters': {
+            const $charBtn = $('#user-settings-button, #rm_button_characters, .drawer-toggle[data-drawer="characters"]').first();
+            if ($charBtn.length) { $charBtn.trigger('click'); _raiseSTPanel(); }
             break;
         }
         case 'align-left':   saveSetting('chatAlign', 'left');   _applyChatAlignment(); break;
@@ -882,33 +879,40 @@ function _onDockItemClick(e, action) {
             if ($chat.length) $chat.scrollTop($chat[0].scrollHeight);
             break;
 
-        case 'toggle-characters': {
-            // Toggle ST's character management panel via button click
-            const $charBtn = $('#rm_button_characters, #character_popup_button, .drawer-toggle[data-drawer="characters"], #rm_button_selected_ch, [data-drawer-toggle="characters"]').first();
+case 'toggle-characters': {
+            // Toggle ST's character management panel
+            // Try clicking known ST top-bar buttons, then use context API as fallback
+            const $charBtn = $('#user-settings-button, #rm_button_characters, #character_popup_button, .drawer-toggle[data-drawer="characters"], #rm_button_selected_ch, [data-drawer-toggle="characters"]').first();
             if ($charBtn.length) {
                 $charBtn.trigger('click');
+                // Ensure the opened panel is visible above #fd-root
+                _raiseSTPanel();
             } else {
-                // Fallback: toggle right panel visibility
-                $('#right-nav-panel, .right-nav-panel').toggle();
-            }
-            break;
-        }
-
-        case 'open-settings': {
-            // Click ST's extensions settings button
-            const $extBtn = $('#extensions_settings_button, .drawer-toggle[data-drawer="extensions"], #extensionsMenuButton').first();
-            if ($extBtn.length) {
-                $extBtn.trigger('click');
-            } else {
-                // Fallback: try the context API
                 try {
                     const ctx = SillyTavern.getContext();
-                    ctx?.openDrawer?.('extensions');
-                } catch { /* ignore */ }
+                    if (typeof ctx?.selectCharacterById === 'function') {
+                        // Open character panel via API
+                        $('#top-settings-holder').css('z-index', 100000);
+                    }
+                } catch {}
             }
             break;
         }
 
+case 'open-settings': {
+            // Click ST's extensions settings button
+            const $extBtn = $('#extensions-settings-button, #extensions_settings_button, .drawer-toggle[data-drawer="extensions"]').first();
+            if ($extBtn.length) {
+                $extBtn.trigger('click');
+                _raiseSTPanel();
+            } else {
+                // Fallback: try extensionsMenuButton popup
+                const $menuBtn = $('#extensionsMenuButton');
+                if ($menuBtn.length) $menuBtn.trigger('click');
+            }
+            break;
+        }
+            
         default:
             // Widget actions are handled by widget-loader.js listening for fd:dock-action
             document.dispatchEvent(new CustomEvent('fd:dock-action', {
@@ -978,6 +982,28 @@ async function _destroySubModules() {
     }
     _subModules = {};
     _stopMenubarClock();
+}
+
+// ---------------------------------------------------------------------------
+// Raise ST panels above #fd-root so they're visible when triggered
+// ---------------------------------------------------------------------------
+function _raiseSTPanel() {
+    // Give ST's top-settings-holder and any drawer/panel a higher z-index
+    // so they appear above #fd-root when toggled by dock/menu actions.
+    requestAnimationFrame(() => {
+        const fdRootZ = parseInt(getComputedStyle($('#fd-root')[0] || document.body).zIndex) || 9999;
+        const raiseZ = fdRootZ + 10;
+        // Raise the top settings holder (contains all ST setting panels)
+        $('#top-settings-holder').css({ 'z-index': raiseZ, 'position': 'relative' });
+        // Also raise any ST drawer/panel that might have opened
+        $('#movingDivs').css('z-index', raiseZ);
+        // Listen for clicks on #fd-root to lower the panels back
+        const $root = $('#fd-root');
+        $root.one('click.fd-lower-panels', () => {
+            $('#top-settings-holder').css({ 'z-index': '', 'position': '' });
+            $('#movingDivs').css('z-index', '');
+        });
+    });
 }
 
 // ---------------------------------------------------------------------------
