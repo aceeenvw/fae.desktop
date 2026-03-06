@@ -1,0 +1,82 @@
+/* ─── clock widget ──────────────────────────────────────────────────────────── */
+
+.fd-clock-widget {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 2px;
+  padding: 8px 12px;
+  box-sizing: border-box;
+  font-family: var(--fd-font, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+  color: var(--fd-text-primary, #1d1d1f);
+  user-select: none;
+}
+
+/* Time */
+.fd-clock-time-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  line-height: 1;
+}
+
+.fd-clock-time {
+  font-family: var(--fd-font-mono, "SF Mono", "Menlo", "Fira Code", monospace);
+  font-size: clamp(24px, 5vw, 38px);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: var(--fd-text-primary, #1d1d1f);
+  transition: font-size var(--fd-transition-fast, 150ms ease);
+}
+
+.fd-clock-ampm {
+  font-size: clamp(10px, 1.5vw, 14px);
+  font-weight: 500;
+  color: var(--fd-text-secondary, #8e8e93);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  align-self: flex-start;
+  padding-top: 6px;
+}
+
+/* Date */
+.fd-clock-date {
+  font-size: clamp(10px, 1.5vw, 12px);
+  color: var(--fd-text-secondary, #8e8e93);
+  letter-spacing: 0.02em;
+  margin-top: 1px;
+}
+
+/* Session timer */
+.fd-clock-session-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  padding: 2px 8px;
+  background: var(--fd-accent-glow, rgba(91,164,207,0.12));
+  border-radius: 20px;
+  border: 1px solid var(--fd-accent, #5ba4cf);
+  border-opacity: 0.25;
+}
+
+.fd-clock-session-icon {
+  font-size: 9px;
+  color: var(--fd-accent, #5ba4cf);
+  line-height: 1;
+}
+
+.fd-clock-session {
+  font-family: var(--fd-font-mono, monospace);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--fd-accent, #5ba4cf);
+  letter-spacing: 0.04em;
+}
+
+/* Hide session area when not shown */
+.fd-clock-session-wrap[hidden] {
+  display: none;
+}

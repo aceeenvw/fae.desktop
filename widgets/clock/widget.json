@@ -1,0 +1,29 @@
+{
+  "id": "clock",
+  "name": "clock.app",
+  "icon": "🕐",
+  "version": "1.0.0",
+  "description": "Decorative clock with session timer",
+  "author": "aceeenvw",
+  "default_size": { "width": 200, "height": 120 },
+  "min_size": { "width": 150, "height": 100 },
+  "resizable": true,
+  "settings": {
+    "format": {
+      "type": "select",
+      "options": ["12h", "24h"],
+      "default": "24h",
+      "label": "Format"
+    },
+    "showSeconds": {
+      "type": "boolean",
+      "default": false,
+      "label": "Show Seconds"
+    },
+    "showSessionTime": {
+      "type": "boolean",
+      "default": true,
+      "label": "Show Session Time"
+    }
+  }
+}

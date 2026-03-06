@@ -1,0 +1,382 @@
+/**
+ * fae.desktop — Dock Styles
+ * ==========================
+ * The macOS-style application dock: icon bar, tooltips, active dot,
+ * separator, bounce animation, and auto-hide behavior.
+ *
+ * The dock is absolutely positioned at the bottom of #fd-root
+ * (not #fd-workspace) so it always appears above windows.
+ * JS handles magnification via inline CSS transforms on hover.
+ */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   DOCK CONTAINER
+───────────────────────────────────────────────────────────────────────────── */
+#fd-dock {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  /* Glass surface */
+  background: var(--fd-dock-bg);
+  backdrop-filter: blur(var(--fd-blur)) saturate(1.6);
+  -webkit-backdrop-filter: blur(var(--fd-blur)) saturate(1.6);
+
+  border: 1px solid var(--fd-dock-border);
+  border-radius: var(--fd-radius-2xl);
+  box-shadow: var(--fd-shadow-dock);
+
+  z-index: var(--fd-z-dock);
+
+  /* Appear from below on load */
+  animation: fd-dock-appear 400ms cubic-bezier(0.34, 1.56, 0.64, 1.00) forwards;
+
+  /* Smooth size changes during icon add/remove */
+  transition: padding var(--fd-transition-fast);
+
+  padding: 6px 12px;
+}
+
+.fd-dock-inner {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+@keyframes fd-dock-appear {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* ── Auto-hide: dock slides below the screen ── */
+#fd-dock.fd-dock-hidden {
+  transform: translateX(-50%) translateY(calc(100% + 20px));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--fd-transition-normal) cubic-bezier(0.55, 0, 1, 0.45),
+    opacity   var(--fd-transition-fast);
+}
+
+/* ── Reveal on mouse-near (JS removes fd-dock-hidden on proximity) ── */
+#fd-dock:not(.fd-dock-hidden) {
+  transition:
+    transform var(--fd-transition-normal) cubic-bezier(0.34, 1.56, 0.64, 1.00),
+    opacity   var(--fd-transition-fast);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   DOCK ITEM WRAPPER
+   Contains the icon + the active dot + the tooltip.
+───────────────────────────────────────────────────────────────────────────── */
+.fd-dock-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+
+  /* Transform origin at bottom so magnification grows upward */
+  transform-origin: bottom center;
+  transition: transform var(--fd-transition-fast);
+
+  padding: 4px 4px 0;
+}
+
+/* Hover scale — base state (JS adds per-item magnification on top of this) */
+.fd-dock-item:hover {
+  transform: scale(1.12);
+}
+
+/* Pressed feedback */
+.fd-dock-item:active .fd-dock-icon {
+  transform: scale(0.90);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   DOCK ICON
+───────────────────────────────────────────────────────────────────────────── */
+.fd-dock-icon {
+  width: var(--fd-dock-icon-size);
+  height: var(--fd-dock-icon-size);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: calc(var(--fd-dock-icon-size) * 0.60);
+  line-height: 1;
+
+  /* Default surface (overridden per-app by JS) */
+  background: var(--fd-bg-secondary);
+  border-radius: var(--fd-radius-lg);
+  border: 0.5px solid var(--fd-border);
+
+  overflow: hidden;
+  flex-shrink: 0;
+
+  transition:
+    background   var(--fd-transition-fast),
+    border-color var(--fd-transition-fast),
+    box-shadow   var(--fd-transition-fast),
+    transform    var(--fd-transition-fast);
+}
+
+/* Icon image (when an img is nested) */
+.fd-dock-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  pointer-events: none;
+  display: block;
+}
+
+/* Icon hover state */
+.fd-dock-item:hover .fd-dock-icon {
+  background: var(--fd-bg-tertiary);
+  border-color: var(--fd-border-active);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.30),
+    0 1px 3px rgba(0, 0, 0, 0.20);
+}
+
+/* Active app: icon gets a subtle glow from the accent */
+.fd-dock-item.fd-dock-active .fd-dock-icon {
+  box-shadow:
+    0 0 0 1.5px var(--fd-accent-glow),
+    0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   ACTIVE DOT
+   Small circle below the icon indicating the window is open.
+───────────────────────────────────────────────────────────────────────────── */
+.fd-dock-active-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--fd-accent);
+  margin-top: 4px;
+  opacity: 0;
+  transform: scale(0);
+  transition:
+    opacity   200ms ease,
+    transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1.00);
+}
+
+.fd-dock-item.fd-dock-active .fd-dock-active-dot {
+  opacity: 1;
+  transform: scale(1);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   DOCK ICON GLYPHS
+   Each built-in dock icon gets an emoji glyph via ::before.
+───────────────────────────────────────────────────────────────────────────── */
+.fd-dock-icon::before {
+  font-size: calc(var(--fd-dock-icon-size, 48px) * 0.50);
+  line-height: 1;
+}
+.fd-dock-icon-chat::before       { content: '💬'; }
+.fd-dock-icon-characters::before { content: '👤'; }
+.fd-dock-icon-settings::before   { content: '⚙️'; }
+.fd-dock-icon-notes::before      { content: '📝'; }
+.fd-dock-icon-gallery::before    { content: '🖼️'; }
+.fd-dock-icon-clock::before      { content: '🕐'; }
+.fd-dock-icon-status::before     { content: '📊'; }
+.fd-dock-icon-music::before      { content: '🎵'; }
+.fd-dock-icon-links::before      { content: '🔗'; }
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   SEPARATOR
+   Visual divider between dock sections (e.g., apps | widgets | trash).
+───────────────────────────────────────────────────────────────────────────── */
+.fd-dock-separator {
+  width: 1px;
+  height: calc(var(--fd-dock-icon-size) * 0.55);
+  background: var(--fd-border);
+  margin: 0 6px;
+  align-self: center;
+  flex-shrink: 0;
+  border-radius: var(--fd-radius-full);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   TOOLTIP
+   Appears above the dock item on hover.
+───────────────────────────────────────────────────────────────────────────── */
+.fd-dock-tooltip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+
+  background: var(--fd-bg-primary);
+  backdrop-filter: blur(var(--fd-blur-sm));
+  -webkit-backdrop-filter: blur(var(--fd-blur-sm));
+  color: var(--fd-text-primary);
+  border: 0.5px solid var(--fd-border);
+  border-radius: var(--fd-radius-md);
+  box-shadow: var(--fd-shadow-tooltip);
+
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    opacity   150ms ease,
+    transform 150ms ease;
+
+  z-index: calc(var(--fd-z-dock) + 1);
+}
+
+/* Arrow pointing down */
+.fd-dock-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--fd-border);
+}
+
+.fd-dock-tooltip::before {
+  content: '';
+  position: absolute;
+  top: calc(100% - 0.5px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--fd-bg-primary);
+  z-index: 1;
+}
+
+/* Show on parent hover */
+.fd-dock-item:hover .fd-dock-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   BOUNCE ANIMATION
+   Played when an app is launched (JS adds/removes .fd-dock-bounce).
+───────────────────────────────────────────────────────────────────────────── */
+@keyframes fd-dock-bounce {
+  0%   { transform: translateY(0); }
+  20%  { transform: translateY(-18px); }
+  40%  { transform: translateY(0); }
+  60%  { transform: translateY(-9px); }
+  80%  { transform: translateY(0); }
+  90%  { transform: translateY(-4px); }
+  100% { transform: translateY(0); }
+}
+
+.fd-dock-bounce .fd-dock-icon {
+  animation: fd-dock-bounce 0.65s ease forwards;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MAGNIFICATION (JS-powered)
+   JS sets inline --fd-item-scale on each .fd-dock-item based on cursor
+   proximity (bell curve). CSS only defines transform-origin; JS controls scale.
+   This rule makes the transform animate smoothly when JS updates the var.
+───────────────────────────────────────────────────────────────────────────── */
+.fd-dock-item.fd-magnify {
+  transform: scale(var(--fd-item-scale, 1));
+  /* JS clears this class when cursor leaves the dock */
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   DOCK LABEL (optional persistent label beneath icons, for "large text" mode)
+───────────────────────────────────────────────────────────────────────────── */
+.fd-dock-label {
+  font-size: 10px;
+  color: var(--fd-text-secondary);
+  white-space: nowrap;
+  margin-top: 2px;
+  max-width: calc(var(--fd-dock-icon-size) + 8px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  height: 0;
+  transition: opacity var(--fd-transition-fast), height var(--fd-transition-fast);
+}
+
+#fd-dock.fd-dock-show-labels .fd-dock-label {
+  opacity: 1;
+  height: 14px;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CONTEXT MENU on dock item right-click
+   (shared .fd-ctx-menu pattern, dock-specific positioning)
+───────────────────────────────────────────────────────────────────────────── */
+.fd-dock-ctx-menu {
+  position: fixed;
+  background: var(--fd-bg-primary);
+  backdrop-filter: blur(var(--fd-blur));
+  -webkit-backdrop-filter: blur(var(--fd-blur));
+  border: 0.5px solid var(--fd-border);
+  border-radius: var(--fd-radius-md);
+  box-shadow: var(--fd-shadow-dropdown);
+  padding: 4px 0;
+  min-width: 180px;
+  z-index: var(--fd-z-ctx-menu);
+
+  /* Enter animation */
+  animation: fd-scale-in var(--fd-transition-fast) forwards;
+  transform-origin: bottom center;
+}
+
+.fd-dock-ctx-menu-item {
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--fd-text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background var(--fd-transition-fast);
+}
+
+.fd-dock-ctx-menu-item:hover {
+  background: var(--fd-accent);
+  color: white;
+  margin: 0 4px;
+  padding: 6px 10px;
+  border-radius: var(--fd-radius-sm);
+}
+
+.fd-dock-ctx-menu-item.fd-ctx-destructive:hover {
+  background: #ff453a;
+}
+
+.fd-dock-ctx-separator {
+  height: 1px;
+  background: var(--fd-border);
+  margin: 3px 0;
+}

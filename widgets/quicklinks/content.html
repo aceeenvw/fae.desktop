@@ -1,0 +1,42 @@
+<div class="fd-ql-widget">
+  <!-- Toolbar -->
+  <header class="fd-ql-header">
+    <span class="fd-ql-title">Quick Links</span>
+    <div class="fd-ql-header-actions">
+      <button class="fd-ql-btn fd-ql-edit-btn" title="Toggle edit mode">Edit</button>
+      <button class="fd-ql-btn fd-ql-add-btn" title="Add a link">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="12" y1="5" x2="12" y2="19"/>
+          <line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Link list -->
+  <div class="fd-ql-list-wrap">
+    <ul class="fd-ql-list">
+      <!-- rows injected by script.js -->
+    </ul>
+
+    <!-- Empty state -->
+    <div class="fd-ql-empty hidden">
+      <div class="fd-ql-empty-icon">🔗</div>
+      <p class="fd-ql-empty-text">No links yet</p>
+      <p class="fd-ql-empty-hint">Click <strong>+</strong> to add your first link</p>
+    </div>
+  </div>
+
+  <!-- Add form (hidden by default) -->
+  <div class="fd-ql-add-form hidden">
+    <div class="fd-ql-form-row">
+      <input class="fd-ql-input fd-ql-input-emoji" type="text" placeholder="🔗" maxlength="4" />
+      <input class="fd-ql-input fd-ql-input-label" type="text" placeholder="Label" />
+    </div>
+    <input class="fd-ql-input fd-ql-input-url" type="url" placeholder="https://…" />
+    <div class="fd-ql-form-actions">
+      <button class="fd-ql-btn fd-ql-cancel-btn">Cancel</button>
+      <button class="fd-ql-btn fd-ql-save-link-btn fd-ql-btn-primary">Add Link</button>
+    </div>
+  </div>
+</div>

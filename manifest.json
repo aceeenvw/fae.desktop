@@ -1,0 +1,16 @@
+{
+    "display_name": "fae.desktop",
+    "loading_order": 100,
+    "requires": [],
+    "optional": [],
+    "js": "index.js",
+    "css": "style.css",
+    "author": "aceeenvw",
+    "version": "1.0.0",
+    "homePage": "https://github.com/aceeenvw/fae.desktop",
+    "auto_update": true,
+    "i18n": {
+        "en": "locales/en.json",
+        "ru": "locales/ru.json"
+    }
+}

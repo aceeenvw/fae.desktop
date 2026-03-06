@@ -1,0 +1,12 @@
+{
+  "id": "gallery",
+  "name": "gallery.app",
+  "icon": "🖼️",
+  "version": "1.0.0",
+  "description": "Character image gallery with drag & drop",
+  "author": "aceeenvw",
+  "default_size": { "width": 400, "height": 350 },
+  "min_size": { "width": 280, "height": 220 },
+  "resizable": true,
+  "settings": {}
+}

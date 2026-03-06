@@ -1,0 +1,123 @@
+/*
+ * fae.desktop — Rosé skin
+ * Warm pink-mauve color preset
+ * Overrides accent colors and applies warm romantic atmospheric touches
+ */
+
+:root[data-fd-skin="rose"] {
+    /* ── Accent palette ─────────────────────────────────────────── */
+    --fd-accent:             #cf7b96;
+    --fd-accent-hover:       #d99aad;
+    --fd-accent-glow:        rgba(207, 123, 150, 0.3);
+    --fd-text-accent:        #cf7b96;
+
+    /* ── Background tints — slightly warmer ─────────────────────── */
+    --fd-bg-primary:         rgba(30, 22, 28, 0.88);
+    --fd-bg-secondary:       rgba(42, 30, 38, 0.75);
+    --fd-bg-tertiary:        rgba(25, 18, 22, 0.6);
+
+    /* ── Borders ────────────────────────────────────────────────── */
+    --fd-border:             rgba(207, 123, 150, 0.15);
+    --fd-border-active:      rgba(207, 123, 150, 0.4);
+
+    /* ── Titlebar — dusky rose tint ──────────────────────────────── */
+    --fd-titlebar-bg:        rgba(40, 26, 34, 0.92);
+    --fd-titlebar-text:      rgba(235, 200, 215, 0.9);
+
+    /* ── Dock — warm plum base ───────────────────────────────────── */
+    --fd-dock-bg:            rgba(32, 20, 28, 0.82);
+    --fd-dock-border:        rgba(207, 123, 150, 0.18);
+    --fd-shadow-dock:        0 -2px 32px rgba(207, 123, 150, 0.1),
+                             0 8px 48px rgba(0, 0, 0, 0.55);
+
+    /* ── Menu bar ───────────────────────────────────────────────── */
+    --fd-menubar-bg:         rgba(28, 18, 24, 0.92);
+    --fd-menubar-text:       rgba(230, 195, 210, 0.88);
+
+    /* ── Window shadow with rose tint ───────────────────────────── */
+    --fd-shadow-window:      0 8px 32px rgba(0, 0, 0, 0.6),
+                             0 0 0 1px rgba(207, 123, 150, 0.08),
+                             0 0 48px rgba(207, 123, 150, 0.05);
+}
+
+/* ── Titlebar highlight — warm blush shimmer ────────────────────── */
+:root[data-fd-skin="rose"] .fd-window-titlebar {
+    background: linear-gradient(
+        180deg,
+        rgba(207, 123, 150, 0.07) 0%,
+        transparent 100%
+    );
+    border-bottom-color: rgba(207, 123, 150, 0.12);
+}
+
+/* ── Titlebar title text — petal pink tint ──────────────────────── */
+:root[data-fd-skin="rose"] .fd-window-title {
+    color: rgba(240, 205, 220, 0.85);
+    text-shadow: 0 0 12px rgba(207, 123, 150, 0.2);
+}
+
+/* ── Active window — rose border glow ──────────────────────────── */
+:root[data-fd-skin="rose"] .fd-window.fd-focused {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(207, 123, 150, 0.25),
+                0 0 24px rgba(207, 123, 150, 0.08);
+}
+
+/* ── Dock icon hover — rosy glow ────────────────────────────────── */
+:root[data-fd-skin="rose"] .fd-dock-icon:hover {
+    filter: drop-shadow(0 0 8px rgba(207, 123, 150, 0.5));
+}
+
+/* ── Dock active indicator dot — rose accent ────────────────────── */
+:root[data-fd-skin="rose"] .fd-dock-indicator {
+    background: radial-gradient(
+        circle,
+        rgba(207, 123, 150, 0.9) 0%,
+        rgba(207, 123, 150, 0.3) 70%,
+        transparent 100%
+    );
+    box-shadow: 0 0 6px rgba(207, 123, 150, 0.6);
+}
+
+/* ── Dock ambient glow strip — warm blush ────────────────────────── */
+:root[data-fd-skin="rose"] #fd-dock::before {
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(207, 123, 150, 0.07) 30%,
+        rgba(207, 123, 150, 0.11) 50%,
+        rgba(207, 123, 150, 0.07) 70%,
+        transparent 100%
+    );
+}
+
+/* ── Menu bar separator ──────────────────────────────────────────── */
+:root[data-fd-skin="rose"] #fd-menubar {
+    border-bottom: 1px solid rgba(207, 123, 150, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(207, 123, 150, 0.04);
+}
+
+/* ── Scrollbar tint ──────────────────────────────────────────────── */
+:root[data-fd-skin="rose"] .fd-window-content::-webkit-scrollbar-thumb {
+    background: rgba(207, 123, 150, 0.25);
+}
+:root[data-fd-skin="rose"] .fd-window-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(207, 123, 150, 0.4);
+}
+
+/* ── Button accent states ────────────────────────────────────────── */
+:root[data-fd-skin="rose"] .fd-btn-primary {
+    background: rgba(207, 123, 150, 0.85);
+    box-shadow: 0 0 12px rgba(207, 123, 150, 0.3);
+}
+:root[data-fd-skin="rose"] .fd-btn-primary:hover {
+    background: rgba(217, 154, 173, 0.9);
+    box-shadow: 0 0 18px rgba(207, 123, 150, 0.45);
+}
+
+/* ── Selection highlight ─────────────────────────────────────────── */
+:root[data-fd-skin="rose"] ::selection {
+    background: rgba(207, 123, 150, 0.3);
+    color: #fce8ef;
+}

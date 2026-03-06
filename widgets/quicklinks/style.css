@@ -1,0 +1,274 @@
+/* ─── quicklinks widget ─────────────────────────────────────────────────────── */
+
+.fd-ql-widget {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: var(--fd-font, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+  color: var(--fd-text-primary, #1d1d1f);
+  background: transparent;
+  overflow: hidden;
+}
+
+/* Header */
+.fd-ql-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 10px 6px;
+  border-bottom: 1px solid var(--fd-border, rgba(0,0,0,0.10));
+  flex-shrink: 0;
+}
+
+.fd-ql-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--fd-text-secondary, #8e8e93);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.fd-ql-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Buttons */
+.fd-ql-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 3px 8px;
+  border: 1px solid var(--fd-border, rgba(0,0,0,0.12));
+  border-radius: var(--fd-radius-md, 8px);
+  background: transparent;
+  color: var(--fd-text-secondary, #8e8e93);
+  font-size: 11px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background var(--fd-transition-fast, 150ms ease),
+              color var(--fd-transition-fast, 150ms ease);
+}
+
+.fd-ql-btn:hover {
+  background: var(--fd-bg-tertiary, rgba(0,0,0,0.06));
+  color: var(--fd-text-primary, #1d1d1f);
+}
+
+.fd-ql-btn.active {
+  background: var(--fd-accent, #5ba4cf);
+  border-color: transparent;
+  color: #fff;
+}
+
+.fd-ql-btn-primary {
+  background: var(--fd-accent, #5ba4cf);
+  border-color: transparent;
+  color: #fff;
+}
+
+.fd-ql-btn-primary:hover {
+  background: var(--fd-accent-hover, #4a93be);
+  color: #fff;
+}
+
+.fd-ql-add-btn {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border-radius: 50%;
+}
+
+/* List */
+.fd-ql-list-wrap {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--fd-border, rgba(0,0,0,0.15)) transparent;
+}
+
+.fd-ql-list {
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+}
+
+.fd-ql-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background var(--fd-transition-fast, 150ms ease);
+  border-bottom: 1px solid var(--fd-border, rgba(0,0,0,0.05));
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+  min-height: 36px;
+}
+
+.fd-ql-row:last-child {
+  border-bottom: none;
+}
+
+.fd-ql-row:hover {
+  background: var(--fd-bg-tertiary, rgba(0,0,0,0.04));
+}
+
+.fd-ql-row:active {
+  background: var(--fd-accent-glow, rgba(91,164,207,0.12));
+}
+
+.fd-ql-row-emoji {
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.fd-ql-row-label {
+  flex: 1;
+  font-size: 12.5px;
+  color: var(--fd-text-primary, #1d1d1f);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fd-ql-row-arrow {
+  font-size: 13px;
+  color: var(--fd-text-secondary, #8e8e93);
+  opacity: 0.4;
+  flex-shrink: 0;
+  transition: opacity var(--fd-transition-fast, 150ms ease),
+              transform var(--fd-transition-fast, 150ms ease);
+}
+
+.fd-ql-row:hover .fd-ql-row-arrow {
+  opacity: 0.8;
+  transform: translateX(2px);
+}
+
+/* Delete button (edit mode) */
+.fd-ql-row-delete {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: none;
+  background: #ff3b30;
+  color: #fff;
+  font-size: 11px;
+  line-height: 1;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0;
+  transition: background var(--fd-transition-fast, 150ms ease);
+}
+
+.fd-ql-row-delete:hover {
+  background: #d63228;
+}
+
+/* Edit mode activates delete buttons */
+.fd-ql-list.edit-mode .fd-ql-row {
+  cursor: default;
+}
+
+.fd-ql-list.edit-mode .fd-ql-row-delete {
+  display: flex;
+}
+
+.fd-ql-list.edit-mode .fd-ql-row-arrow {
+  display: none;
+}
+
+/* Empty state */
+.fd-ql-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 24px 16px;
+  text-align: center;
+  color: var(--fd-text-secondary, #8e8e93);
+}
+
+.fd-ql-empty.hidden { display: none; }
+
+.fd-ql-empty-icon {
+  font-size: 28px;
+  opacity: 0.4;
+}
+
+.fd-ql-empty-text {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--fd-text-primary, #1d1d1f);
+  margin: 0;
+}
+
+.fd-ql-empty-hint {
+  font-size: 11px;
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* Add form */
+.fd-ql-add-form {
+  border-top: 1px solid var(--fd-border, rgba(0,0,0,0.10));
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+  background: var(--fd-bg-secondary, rgba(245,245,247,0.5));
+}
+
+.fd-ql-add-form.hidden { display: none; }
+
+.fd-ql-form-row {
+  display: flex;
+  gap: 6px;
+}
+
+.fd-ql-input {
+  width: 100%;
+  padding: 5px 8px;
+  border: 1px solid var(--fd-border, rgba(0,0,0,0.15));
+  border-radius: var(--fd-radius-sm, 4px);
+  background: var(--fd-bg-tertiary, rgba(255,255,255,0.7));
+  color: var(--fd-text-primary, #1d1d1f);
+  font-size: 12px;
+  font-family: inherit;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color var(--fd-transition-fast, 150ms ease);
+}
+
+.fd-ql-input:focus {
+  border-color: var(--fd-accent, #5ba4cf);
+}
+
+.fd-ql-input-emoji {
+  width: 46px;
+  flex-shrink: 0;
+  text-align: center;
+  font-size: 15px;
+}
+
+.fd-ql-input-label {
+  flex: 1;
+}
+
+.fd-ql-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}

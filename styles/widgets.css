@@ -1,0 +1,326 @@
+/**
+ * fae.desktop — Widget Styles
+ * ============================
+ * Shared styles for all widget windows. Widgets are small, purpose-specific
+ * floating windows (notes, clock, gallery, now-playing, quicklinks, status).
+ *
+ * Each built-in widget includes its own style.css for unique styling.
+ * This file provides the common chrome, scrollbars, and layout conventions.
+ */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   WIDGET WINDOW BASE
+   Widgets share the .fd-window structure but have a .fd-widget modifier.
+───────────────────────────────────────────────────────────────────────────── */
+.fd-widget {
+  /* Smaller default dimensions than the chat window */
+  min-width: 220px;
+  min-height: 140px;
+
+  /* Widget windows start slightly more transparent */
+  --fd-bg-primary: rgba(28, 28, 34, 0.85);
+}
+
+/* Widget content area — always padded */
+.fd-widget .fd-window-content {
+  padding: 12px;
+  font-size: 13px;
+  color: var(--fd-text-primary);
+  line-height: 1.5;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  /* Thin matching scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: var(--fd-border) transparent;
+}
+
+.fd-widget .fd-window-content::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.fd-widget .fd-window-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.fd-widget .fd-window-content::-webkit-scrollbar-thumb {
+  background: var(--fd-border);
+  border-radius: var(--fd-radius-full);
+}
+
+.fd-widget .fd-window-content::-webkit-scrollbar-thumb:hover {
+  background: var(--fd-border-active);
+}
+
+/* ── Compact titlebar for widgets (slightly shorter) ── */
+.fd-widget .fd-titlebar {
+  height: 30px;
+  padding: 0 8px;
+}
+
+.fd-widget .fd-titlebar-title {
+  font-size: 12px;
+}
+
+.fd-widget .fd-traffic-light {
+  width: 10px;
+  height: 10px;
+}
+
+.fd-widget .fd-traffic-lights {
+  gap: 6px;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   WIDGET EMPTY STATE
+───────────────────────────────────────────────────────────────────────────── */
+.fd-widget-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 80px;
+  gap: 8px;
+  color: var(--fd-text-tertiary);
+  text-align: center;
+  padding: 16px;
+}
+
+.fd-widget-empty-icon {
+  font-size: 28px;
+  opacity: 0.40;
+}
+
+.fd-widget-empty-text {
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   WIDGET LOADING STATE
+───────────────────────────────────────────────────────────────────────────── */
+.fd-widget-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 60px;
+}
+
+/* Simple CSS spinner */
+.fd-widget-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--fd-border);
+  border-top-color: var(--fd-accent);
+  border-radius: 50%;
+  animation: fd-spin 600ms linear infinite;
+}
+
+@keyframes fd-spin {
+  to { transform: rotate(360deg); }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   WIDGET SECTION / TYPOGRAPHY
+   Shared typography helpers for widget content.
+───────────────────────────────────────────────────────────────────────────── */
+.fd-widget-section {
+  margin-bottom: 10px;
+}
+
+.fd-widget-section:last-child {
+  margin-bottom: 0;
+}
+
+.fd-widget-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--fd-text-secondary);
+  margin-bottom: 4px;
+}
+
+.fd-widget-value {
+  font-size: 13px;
+  color: var(--fd-text-primary);
+  font-weight: 400;
+}
+
+.fd-widget-value.fd-widget-value-large {
+  font-size: 22px;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.fd-widget-value.fd-widget-value-mono {
+  font-family: var(--fd-font-mono);
+  font-size: 12px;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   WIDGET BUTTON
+   Small action buttons inside widget content areas.
+───────────────────────────────────────────────────────────────────────────── */
+.fd-widget-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 26px;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--fd-font-ui);
+  color: var(--fd-text-primary);
+  background: var(--fd-bg-tertiary);
+  border: 0.5px solid var(--fd-border);
+  border-radius: var(--fd-radius-md);
+  cursor: pointer;
+  transition:
+    background   var(--fd-transition-fast),
+    border-color var(--fd-transition-fast),
+    color        var(--fd-transition-fast);
+  user-select: none;
+}
+
+.fd-widget-button:hover {
+  background: var(--fd-bg-hover);
+  border-color: var(--fd-border-active);
+}
+
+.fd-widget-button:active {
+  background: var(--fd-bg-active);
+  transform: scale(0.97);
+}
+
+.fd-widget-button.fd-widget-button-primary {
+  background: var(--fd-accent);
+  border-color: transparent;
+  color: #fff;
+}
+
+.fd-widget-button.fd-widget-button-primary:hover {
+  background: var(--fd-accent-hover);
+}
+
+/* ── Icon button variant ── */
+.fd-widget-button.fd-widget-button-icon {
+  width: 26px;
+  padding: 0;
+  font-size: 13px;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   WIDGET INPUT
+   Text input / textarea inside widget content.
+───────────────────────────────────────────────────────────────────────────── */
+.fd-widget-input {
+  width: 100%;
+  background: var(--fd-bg-tertiary);
+  border: 0.5px solid var(--fd-border);
+  border-radius: var(--fd-radius-md);
+  color: var(--fd-text-primary);
+  font-size: 13px;
+  font-family: var(--fd-font-ui);
+  padding: 6px 10px;
+  outline: none;
+  transition:
+    border-color var(--fd-transition-fast),
+    box-shadow   var(--fd-transition-fast);
+  resize: none; /* for textareas */
+}
+
+.fd-widget-input:focus {
+  border-color: var(--fd-accent);
+  box-shadow: 0 0 0 2px var(--fd-accent-glow);
+}
+
+.fd-widget-input::placeholder {
+  color: var(--fd-text-tertiary);
+}
+
+/* Textarea specific */
+.fd-widget-textarea {
+  min-height: 80px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   WIDGET ROW
+   Horizontal layout helper for label+value or icon+text rows.
+───────────────────────────────────────────────────────────────────────────── */
+.fd-widget-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.fd-widget-row + .fd-widget-row {
+  border-top: 0.5px solid var(--fd-border);
+}
+
+.fd-widget-row-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+  opacity: 0.70;
+}
+
+.fd-widget-row-label {
+  flex: 1;
+  font-size: 12px;
+  color: var(--fd-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fd-widget-row-value {
+  font-size: 12px;
+  color: var(--fd-text-primary);
+  flex-shrink: 0;
+  text-align: right;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   WIDGET FOOTER
+   Optional action row at the bottom of a widget.
+───────────────────────────────────────────────────────────────────────────── */
+.fd-widget-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: 8px 12px;
+  border-top: 0.5px solid var(--fd-border);
+  background: var(--fd-titlebar-bg);
+  flex-shrink: 0;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   WIDGET DIVIDER
+───────────────────────────────────────────────────────────────────────────── */
+.fd-widget-divider {
+  height: 1px;
+  background: var(--fd-border);
+  margin: 8px -12px; /* extend to widget edges */
+}

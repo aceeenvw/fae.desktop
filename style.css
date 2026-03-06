@@ -1,0 +1,32 @@
+/**
+ * fae.desktop — Master Stylesheet
+ * ================================
+ * SillyTavern extension — macOS-inspired desktop UI
+ * Author: aceeenvw
+ *
+ * This file is loaded by manifest.json and cascades all
+ * component stylesheets in the correct order.
+ *
+ * Load order:
+ *   1. base        — CSS variables, root layout, global resets
+ *   2. window      — Window chrome, titlebars, traffic lights, resize
+ *   3. dock        — Dock bar, icons, tooltips, magnification
+ *   4. menubar     — Menu bar, dropdowns, system tray
+ *   5. widgets     — Widget window shared styles
+ *   6. chat-overrides — ST chat integration overrides
+ *   7. avatars     — Avatar shapes and context menu
+ *   8. particles   — Ambient particle layer
+ *   9. transitions — Shared keyframes and animation utilities
+ *  10. skins/macos — Default macOS skin (colors, glass, surfaces)
+ */
+
+@import url('./styles/base.css');
+@import url('./styles/window.css');
+@import url('./styles/dock.css');
+@import url('./styles/menubar.css');
+@import url('./styles/widgets.css');
+@import url('./styles/chat-overrides.css');
+@import url('./styles/avatars.css');
+@import url('./styles/particles.css');
+@import url('./styles/transitions.css');
+@import url('./skins/macos.css');

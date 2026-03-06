@@ -1,0 +1,40 @@
+<div class="fd-notes-widget">
+  <header class="fd-notes-header">
+    <div class="fd-notes-char-info">
+      <img class="fd-notes-avatar" src="" alt="" />
+      <span class="fd-notes-char-name">No character</span>
+    </div>
+    <div class="fd-notes-toolbar">
+      <span class="fd-notes-count" title="Note length">0 chars</span>
+      <button class="fd-notes-btn fd-notes-preview-btn" title="Toggle preview">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>
+      </button>
+      <button class="fd-notes-btn fd-notes-clear-btn" title="Clear note">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="3 6 5 6 21 6"/>
+          <path d="M19 6l-1 14H6L5 6"/>
+          <path d="M10 11v6M14 11v6"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="fd-notes-body">
+    <textarea
+      class="fd-notes-textarea"
+      placeholder="Write a note about this character…&#10;&#10;Markdown is supported."
+      spellcheck="true"
+    ></textarea>
+
+    <div class="fd-notes-preview" hidden>
+      <!-- rendered markdown goes here -->
+    </div>
+  </div>
+
+  <div class="fd-notes-status-bar">
+    <span class="fd-notes-save-indicator" aria-live="polite"></span>
+  </div>
+</div>

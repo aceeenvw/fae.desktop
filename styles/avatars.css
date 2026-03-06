@@ -1,0 +1,245 @@
+/**
+ * fae.desktop — Avatar Styles
+ * ============================
+ * Avatar shape modifiers applied to ST's .avatar elements inside #fd-chat.
+ * Shape classes are set on #fd-chat by avatar-manager.js.
+ *
+ * Also includes the per-character avatar context menu that appears
+ * on right-click of an avatar in the chat.
+ *
+ * NOTE: Avatar *size* is injected as dynamic CSS by avatar-manager.js
+ * (via a <style> tag using the avatarSize setting), not defined here.
+ */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   AVATAR SHAPE MODIFIERS
+   Applied as a class on #fd-chat (e.g., #fd-chat.fd-avatar-circle).
+   This allows all avatars to change shape uniformly.
+───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Circle ── */
+.fd-avatar-circle .avatar img,
+.fd-avatar-circle .avatar_compact_group img {
+  border-radius: 50% !important;
+}
+
+/* ── Rounded rectangle (macOS-style icon) ── */
+.fd-avatar-rounded .avatar img,
+.fd-avatar-rounded .avatar_compact_group img {
+  border-radius: 28% !important; /* macOS icon superellipse approximation */
+}
+
+/* ── Square ── */
+.fd-avatar-square .avatar img,
+.fd-avatar-square .avatar_compact_group img {
+  border-radius: 0 !important;
+}
+
+/* ── Hexagon ── */
+.fd-avatar-hexagon .avatar img,
+.fd-avatar-hexagon .avatar_compact_group img {
+  clip-path: polygon(
+    50%  0%,
+    93%  25%,
+    93%  75%,
+    50% 100%,
+    7%  75%,
+    7%  25%
+  ) !important;
+  border-radius: 0 !important;
+}
+
+/* ── Diamond ── */
+.fd-avatar-diamond .avatar img,
+.fd-avatar-diamond .avatar_compact_group img {
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%) !important;
+  border-radius: 0 !important;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   AVATAR BASE STYLES (inside fae.desktop mode)
+───────────────────────────────────────────────────────────────────────────── */
+body.fd-active .avatar img,
+body.fd-active .avatar_compact_group img {
+  /* Smooth shape transitions when the shape class changes */
+  transition:
+    border-radius var(--fd-transition-normal),
+    clip-path     var(--fd-transition-normal);
+  display: block;
+  object-fit: cover;
+}
+
+/* Avatar hover: subtle lift effect */
+body.fd-active .avatar:hover img {
+  filter: brightness(1.08);
+  transform: scale(1.04);
+  transition:
+    transform  var(--fd-transition-fast),
+    filter     var(--fd-transition-fast);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   AVATAR CONTEXT MENU
+   Right-click on an avatar opens a quick action menu.
+───────────────────────────────────────────────────────────────────────────── */
+.fd-avatar-ctx-menu {
+  position: fixed;
+  min-width: 200px;
+
+  background: var(--fd-bg-primary);
+  backdrop-filter: blur(var(--fd-blur)) saturate(1.8);
+  -webkit-backdrop-filter: blur(var(--fd-blur)) saturate(1.8);
+
+  border: 0.5px solid var(--fd-border);
+  border-radius: var(--fd-radius-md);
+  box-shadow: var(--fd-shadow-dropdown);
+
+  padding: 4px 0;
+  z-index: var(--fd-z-ctx-menu);
+
+  /* Enter animation — origin set by JS based on click position */
+  animation: fd-scale-in 100ms ease forwards;
+  transform-origin: top left;
+}
+
+/* ── Context menu header (shows character name) ── */
+.fd-avatar-ctx-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px 6px;
+  border-bottom: 0.5px solid var(--fd-border);
+  margin-bottom: 3px;
+}
+
+.fd-avatar-ctx-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.fd-avatar-ctx-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fd-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Context menu item ── */
+.fd-avatar-ctx-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--fd-text-primary);
+  cursor: pointer;
+  transition: background var(--fd-transition-fast), color var(--fd-transition-fast);
+}
+
+.fd-avatar-ctx-item:hover {
+  background: var(--fd-accent);
+  color: #fff;
+  margin: 0 4px;
+  padding: 6px 10px;
+  border-radius: var(--fd-radius-sm);
+}
+
+.fd-avatar-ctx-item:active {
+  filter: brightness(0.88);
+}
+
+/* ── Destructive item (e.g., reset override) ── */
+.fd-avatar-ctx-item.fd-ctx-destructive {
+  color: #ff6b6b;
+}
+
+.fd-avatar-ctx-item.fd-ctx-destructive:hover {
+  background: #c0392b;
+  color: #fff;
+}
+
+/* ── Item icon ── */
+.fd-avatar-ctx-icon {
+  width: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  opacity: 0.75;
+  flex-shrink: 0;
+}
+
+.fd-avatar-ctx-item:hover .fd-avatar-ctx-icon {
+  opacity: 1;
+}
+
+/* ── Separator ── */
+.fd-avatar-ctx-sep {
+  height: 1px;
+  background: var(--fd-border);
+  margin: 3px 0;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   AVATAR SHAPE PICKER
+   Small inline UI inside the context menu for choosing shape.
+───────────────────────────────────────────────────────────────────────────── */
+.fd-avatar-shape-picker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+}
+
+.fd-avatar-shape-option {
+  width: 28px;
+  height: 28px;
+  background: var(--fd-bg-tertiary);
+  border: 1.5px solid var(--fd-border);
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    border-color var(--fd-transition-fast),
+    background   var(--fd-transition-fast);
+}
+
+.fd-avatar-shape-option[data-shape="circle"] {
+  border-radius: 50%;
+}
+
+.fd-avatar-shape-option[data-shape="rounded"] {
+  border-radius: 28%;
+}
+
+.fd-avatar-shape-option[data-shape="square"] {
+  border-radius: 0;
+}
+
+.fd-avatar-shape-option[data-shape="hexagon"] {
+  clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
+  border-radius: 0;
+  border: none;
+  background: var(--fd-bg-tertiary);
+}
+
+.fd-avatar-shape-option:hover {
+  border-color: var(--fd-accent);
+  background: var(--fd-bg-active);
+}
+
+.fd-avatar-shape-option.fd-selected {
+  border-color: var(--fd-accent);
+  background: var(--fd-accent-glow);
+}

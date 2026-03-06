@@ -1,0 +1,66 @@
+<div class="fd-gallery-widget">
+  <!-- Toolbar -->
+  <header class="fd-gallery-header">
+    <div class="fd-gallery-char-info">
+      <span class="fd-gallery-char-name">No character</span>
+    </div>
+    <div class="fd-gallery-toolbar">
+      <span class="fd-gallery-count">0 images</span>
+      <button class="fd-gallery-btn fd-gallery-add-btn" title="Add image from file">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="12" y1="5" x2="12" y2="19"/>
+          <line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        Add
+      </button>
+    </div>
+  </header>
+
+  <!-- Grid container (also drag-drop target) -->
+  <div class="fd-gallery-grid-wrap">
+    <!-- Drop zone overlay (shown while dragging) -->
+    <div class="fd-gallery-dropzone" hidden>
+      <div class="fd-gallery-drop-label">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <polyline points="16 16 12 12 8 16"/>
+          <line x1="12" y1="12" x2="12" y2="21"/>
+          <path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/>
+        </svg>
+        Drop images here
+      </div>
+    </div>
+
+    <!-- Image grid -->
+    <div class="fd-gallery-grid"></div>
+
+    <!-- Empty state -->
+    <div class="fd-gallery-empty">
+      <div class="fd-gallery-empty-icon">🖼️</div>
+      <p class="fd-gallery-empty-text">No images yet</p>
+      <p class="fd-gallery-empty-hint">Drag &amp; drop images here or click <strong>Add</strong></p>
+    </div>
+  </div>
+
+  <!-- Hidden file picker -->
+  <input
+    type="file"
+    class="fd-gallery-file-input"
+    accept="image/*"
+    multiple
+    style="display:none"
+  />
+
+  <!-- Context menu -->
+  <div class="fd-gallery-ctx-menu" hidden>
+    <button class="fd-gallery-ctx-delete">🗑️ Delete</button>
+  </div>
+
+  <!-- Lightbox overlay -->
+  <div class="fd-gallery-lightbox" hidden>
+    <button class="fd-gallery-lb-close" title="Close">✕</button>
+    <button class="fd-gallery-lb-prev" title="Previous">‹</button>
+    <button class="fd-gallery-lb-next" title="Next">›</button>
+    <img class="fd-gallery-lb-img" src="" alt="" />
+    <div class="fd-gallery-lb-caption"></div>
+  </div>
+</div>

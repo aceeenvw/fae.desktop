@@ -1,0 +1,319 @@
+/**
+ * fae.desktop — Transitions & Animations
+ * ========================================
+ * Shared animation keyframes and transition utility classes used across
+ * all fae.desktop components.
+ *
+ * Keyframes are defined once here and referenced by name throughout
+ * the component stylesheets and by JS for imperative animations.
+ */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   KEYFRAMES
+───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Fade ── */
+@keyframes fd-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fd-fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* ── Scale + fade (context menus, dropdowns, tooltips) ── */
+@keyframes fd-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fd-scale-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+}
+
+/* ── Slide up (panels sliding into view from bottom) ── */
+@keyframes fd-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fd-slide-down {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* ── Slide in from left / right ── */
+@keyframes fd-slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fd-slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ── Spring scale (window open animation with overshoot) ── */
+@keyframes fd-spring-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.85) translateY(8px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.03) translateY(-2px);
+  }
+  80% {
+    transform: scale(0.99) translateY(0.5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ── Minimize to dock (shrink toward a point) ── */
+@keyframes fd-minimize-out {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.3) translateY(60px);
+  }
+}
+
+/* ── Maximize expand ── */
+@keyframes fd-maximize-in {
+  from {
+    border-radius: var(--fd-radius-xl);
+  }
+  to {
+    border-radius: 0;
+  }
+}
+
+/* ── Pulse (notification / attention) ── */
+@keyframes fd-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 var(--fd-accent-glow);
+  }
+  50% {
+    box-shadow: 0 0 0 6px transparent;
+  }
+}
+
+/* ── Spinner (loading) ── */
+@keyframes fd-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Dock bounce (defined in dock.css too, canonical version here) ── */
+@keyframes fd-dock-bounce {
+  0%   { transform: translateY(0); }
+  20%  { transform: translateY(-18px); }
+  40%  { transform: translateY(0); }
+  60%  { transform: translateY(-9px); }
+  80%  { transform: translateY(0); }
+  90%  { transform: translateY(-4px); }
+  100% { transform: translateY(0); }
+}
+
+/* ── Shake (error / invalid action) ── */
+@keyframes fd-shake {
+  0%, 100% { transform: translateX(0); }
+  15%      { transform: translateX(-5px); }
+  30%      { transform: translateX(4px); }
+  45%      { transform: translateX(-3px); }
+  60%      { transform: translateX(2px); }
+  75%      { transform: translateX(-1px); }
+}
+
+/* ── Blink (cursor, notification dot) ── */
+@keyframes fd-blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+/* ── Toast slide in from bottom-right ── */
+@keyframes fd-toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(12px) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+  }
+}
+
+@keyframes fd-toast-out {
+  from {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(16px) translateY(-2px);
+  }
+}
+
+/* ── Snap preview pop-in ── */
+@keyframes fd-snap-preview-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ── Number tick (counter rolling up) ── */
+@keyframes fd-tick-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   ANIMATION UTILITY CLASSES
+   Apply to any element. Duration uses --fd-transition-* vars by default.
+───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Fade ── */
+.fd-animate-fade-in  { animation: fd-fade-in  var(--fd-transition-normal) ease both; }
+.fd-animate-fade-out { animation: fd-fade-out var(--fd-transition-normal) ease both; }
+
+/* ── Scale in/out ── */
+.fd-animate-in  { animation: fd-scale-in  var(--fd-transition-normal) ease both; }
+.fd-animate-out { animation: fd-scale-out var(--fd-transition-normal) ease both; }
+
+/* ── Slide up ── */
+.fd-animate-slide-up   { animation: fd-slide-up   var(--fd-transition-normal) ease both; }
+.fd-animate-slide-down { animation: fd-slide-down var(--fd-transition-normal) ease both; }
+
+/* ── Spring window open ── */
+.fd-animate-spring-in { animation: fd-spring-in 320ms cubic-bezier(0.34, 1.56, 0.64, 1.00) both; }
+
+/* ── Error shake ── */
+.fd-animate-shake { animation: fd-shake 380ms ease both; }
+
+/* ── Pulse ── */
+.fd-animate-pulse { animation: fd-pulse 2s ease-in-out infinite; }
+
+/* ── Spinner ── */
+.fd-animate-spin { animation: fd-spin 600ms linear infinite; }
+
+/* ── Blink ── */
+.fd-animate-blink { animation: fd-blink 1.2s step-end infinite; }
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   TRANSITION UTILITIES
+   Applied by JS to enable smooth positional transitions during snapping,
+   maximize, or layout changes.
+───────────────────────────────────────────────────────────────────────────── */
+
+/* Snapping transition — applied by JS while a snap repositioning occurs */
+.fd-window.fd-snapping {
+  transition:
+    left    var(--fd-transition-normal) cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    top     var(--fd-transition-normal) cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    width   var(--fd-transition-normal) cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    height  var(--fd-transition-normal) cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* All properties transition during layout preset application */
+.fd-window.fd-layout-transitioning {
+  transition:
+    left    var(--fd-transition-slow) cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    top     var(--fd-transition-slow) cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    width   var(--fd-transition-slow) cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    height  var(--fd-transition-slow) cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity var(--fd-transition-normal);
+}
+
+/* Quick property transition for interactive resize */
+.fd-window.fd-resizing {
+  transition: none; /* No transition during active resize — must be instant */
+  user-select: none;
+}
+
+/* No transition during active drag */
+.fd-window.fd-dragging {
+  transition: box-shadow var(--fd-transition-fast); /* only shadow animates */
+  user-select: none;
+}
+
+/* Lifted shadow when dragging */
+.fd-window.fd-dragging {
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.14),
+    0 4px 8px  rgba(0, 0, 0, 0.30),
+    0 16px 40px rgba(0, 0, 0, 0.60),
+    0 32px 72px rgba(0, 0, 0, 0.45);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   REDUCED MOTION
+   Respect the OS-level accessibility setting.
+───────────────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

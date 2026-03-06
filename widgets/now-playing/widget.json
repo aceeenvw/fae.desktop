@@ -1,0 +1,38 @@
+{
+  "id": "now-playing",
+  "name": "now.playing",
+  "icon": "🎵",
+  "version": "1.0.0",
+  "description": "Decorative music player widget",
+  "author": "aceeenvw",
+  "default_size": { "width": 300, "height": 140 },
+  "min_size": { "width": 250, "height": 120 },
+  "resizable": true,
+  "settings": {
+    "songTitle": {
+      "type": "text",
+      "default": "untitled track",
+      "label": "Song Title"
+    },
+    "artist": {
+      "type": "text",
+      "default": "unknown artist",
+      "label": "Artist"
+    },
+    "duration": {
+      "type": "text",
+      "default": "3:24",
+      "label": "Duration"
+    },
+    "audioUrl": {
+      "type": "text",
+      "default": "",
+      "label": "Audio URL (optional)"
+    },
+    "albumArt": {
+      "type": "text",
+      "default": "",
+      "label": "Album Art URL (optional)"
+    }
+  }
+}

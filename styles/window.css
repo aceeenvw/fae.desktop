@@ -1,0 +1,516 @@
+/**
+ * fae.desktop — Window Styles
+ * ============================
+ * macOS-inspired window chrome: titlebar, traffic lights, content area,
+ * resize handles, snap preview, focus/blur states, maximize/minimize.
+ *
+ * Windows are absolutely positioned inside #fd-workspace.
+ * JS (window-manager.js) manages z-index, dragging, and resizing.
+ */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   BASE WINDOW
+───────────────────────────────────────────────────────────────────────────── */
+.fd-window {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  /* Glass surface */
+  background: var(--fd-bg-primary);
+  backdrop-filter: blur(var(--fd-blur)) saturate(1.8);
+  -webkit-backdrop-filter: blur(var(--fd-blur)) saturate(1.8);
+
+  /* Shape */
+  border-radius: var(--fd-radius-xl);
+  border: 0.5px solid var(--fd-border);
+
+  /* Shadow — unfocused is slightly flatter */
+  box-shadow: var(--fd-shadow-window);
+
+  /* Smooth transitions for maximize/minimize/snap */
+  transition:
+    box-shadow   var(--fd-transition-fast),
+    border-color var(--fd-transition-fast),
+    opacity      var(--fd-transition-normal),
+    transform    var(--fd-transition-normal);
+
+  /* Minimum usable dimensions */
+  min-width:  280px;
+  min-height: 200px;
+
+  /* Prevent selection when dragging */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ── Focused window — brighter shadow + accent ring ── */
+.fd-window.fd-window-focused {
+  box-shadow: var(--fd-shadow-window-focused);
+  border-color: var(--fd-border-active);
+  z-index: var(--fd-z-window-base); /* JS increments this per-focus */
+}
+
+/* Allow text selection inside focused window content */
+.fd-window.fd-window-focused .fd-window-content {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   TITLEBAR
+───────────────────────────────────────────────────────────────────────────── */
+.fd-titlebar {
+  display: flex;
+  align-items: center;
+  height: var(--fd-titlebar-height);
+  padding: 0 12px;
+  flex-shrink: 0;
+
+  background: var(--fd-titlebar-bg);
+  border-radius: var(--fd-radius-xl) var(--fd-radius-xl) 0 0;
+  border-bottom: 0.5px solid var(--fd-border);
+
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Active drag state */
+.fd-titlebar:active,
+.fd-window.fd-window-dragging .fd-titlebar {
+  cursor: grabbing;
+}
+
+/* Dim titlebar when window is not focused */
+.fd-window:not(.fd-window-focused) .fd-titlebar {
+  background: var(--fd-titlebar-bg);
+  opacity: 0.85;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   TRAFFIC LIGHTS
+   Three circles: close (red), minimize (yellow), maximize (green).
+   Icons appear on hover of the titlebar (not individual light hover).
+───────────────────────────────────────────────────────────────────────────── */
+.fd-traffic-lights {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 12px;
+  flex-shrink: 0;
+}
+
+.fd-traffic {
+  position: relative;
+  width: var(--fd-traffic-size);
+  height: var(--fd-traffic-size);
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    filter     150ms ease,
+    transform  150ms ease,
+    background 150ms ease;
+}
+
+/* Default colors */
+.fd-traffic-close    { background: var(--fd-traffic-close);    }
+.fd-traffic-minimize { background: var(--fd-traffic-minimize); }
+.fd-traffic-maximize { background: var(--fd-traffic-maximize); }
+
+/* When window is NOT focused: all lights become neutral gray */
+.fd-window:not(.fd-window-focused) .fd-traffic {
+  background: rgba(160, 160, 160, 0.35) !important;
+}
+
+/* On titlebar hover: restore vivid colors */
+.fd-window:not(.fd-window-focused) .fd-titlebar:hover .fd-traffic-close    { background: var(--fd-traffic-close)    !important; }
+.fd-window:not(.fd-window-focused) .fd-titlebar:hover .fd-traffic-minimize { background: var(--fd-traffic-minimize) !important; }
+.fd-window:not(.fd-window-focused) .fd-titlebar:hover .fd-traffic-maximize { background: var(--fd-traffic-maximize) !important; }
+
+/* Icon symbols — revealed on titlebar hover */
+.fd-traffic::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: 900;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.65);
+  opacity: 0;
+  transition: opacity 120ms ease;
+  padding-top: 1px;
+}
+
+.fd-traffic-close::after    { content: '✕'; }
+.fd-traffic-minimize::after { content: '–'; }
+.fd-traffic-maximize::after { content: '+'; }
+
+/* Show icons on titlebar hover */
+.fd-titlebar:hover .fd-traffic::after {
+  opacity: 1;
+}
+
+/* Individual light hover: slight brightness boost */
+.fd-traffic-close:hover    { filter: brightness(1.15); transform: scale(1.08); }
+.fd-traffic-minimize:hover { filter: brightness(1.15); transform: scale(1.08); }
+.fd-traffic-maximize:hover { filter: brightness(1.15); transform: scale(1.08); }
+
+/* Active (click) feedback */
+.fd-traffic:active {
+  filter: brightness(0.85) !important;
+  transform: scale(0.92) !important;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   TITLEBAR TITLE
+───────────────────────────────────────────────────────────────────────────── */
+.fd-titlebar-title {
+  flex: 1;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--fd-titlebar-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  /* Don't let title compete with traffic lights on small windows */
+  padding: 0 4px;
+  pointer-events: none;
+}
+
+/* Dimmer when unfocused */
+.fd-window:not(.fd-window-focused) .fd-titlebar-title {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   TITLEBAR ACCESSORIES (right side slots)
+   e.g. zoom level, subtitle, icon badge
+───────────────────────────────────────────────────────────────────────────── */
+.fd-titlebar-accessories {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  padding-left: 12px;
+  /* Mirror traffic lights width so title stays visually centered */
+  min-width: calc(var(--fd-traffic-size) * 3 + 8px * 2 + 12px);
+  justify-content: flex-end;
+}
+
+.fd-titlebar-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--fd-text-secondary);
+  background: var(--fd-bg-tertiary);
+  padding: 1px 6px;
+  border-radius: var(--fd-radius-full);
+  border: 0.5px solid var(--fd-border);
+  line-height: 1.5;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   WINDOW CONTENT AREA
+───────────────────────────────────────────────────────────────────────────── */
+.fd-window-content {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+  min-height: 0; /* flex child shrink fix */
+
+  /* Thin, theme-matching scrollbars */
+  scrollbar-width: thin;
+  scrollbar-color: var(--fd-border) transparent;
+}
+
+.fd-window-content::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.fd-window-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.fd-window-content::-webkit-scrollbar-thumb {
+  background: var(--fd-border);
+  border-radius: var(--fd-radius-full);
+  border: 1px solid transparent;
+  background-clip: content-box;
+}
+
+.fd-window-content::-webkit-scrollbar-thumb:hover {
+  background: var(--fd-border-active);
+  background-clip: content-box;
+}
+
+.fd-window-content::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   RESIZE HANDLES
+   Transparent click targets on all 8 edges/corners.
+   JS attaches mousedown → resize logic.
+───────────────────────────────────────────────────────────────────────────── */
+.fd-resize-handle {
+  position: absolute;
+  z-index: 5;
+  /* Transparent by default; JS may add a visible indicator in debug mode */
+}
+
+/* ── Edge handles ── */
+.fd-resize-handle-n {
+  top: 0;
+  left: 6px;
+  right: 6px;
+  height: 4px;
+  cursor: n-resize;
+}
+
+.fd-resize-handle-s {
+  bottom: 0;
+  left: 6px;
+  right: 6px;
+  height: 4px;
+  cursor: s-resize;
+}
+
+.fd-resize-handle-e {
+  top: 6px;
+  right: 0;
+  bottom: 6px;
+  width: 4px;
+  cursor: e-resize;
+}
+
+.fd-resize-handle-w {
+  top: 6px;
+  left: 0;
+  bottom: 6px;
+  width: 4px;
+  cursor: w-resize;
+}
+
+/* ── Corner handles (larger hit area) ── */
+.fd-resize-handle-nw {
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  cursor: nw-resize;
+  border-radius: var(--fd-radius-xl) 0 0 0;
+}
+
+.fd-resize-handle-ne {
+  top: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  cursor: ne-resize;
+  border-radius: 0 var(--fd-radius-xl) 0 0;
+}
+
+.fd-resize-handle-sw {
+  bottom: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  cursor: sw-resize;
+  border-radius: 0 0 0 var(--fd-radius-xl);
+}
+
+.fd-resize-handle-se {
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  cursor: se-resize;
+  border-radius: 0 0 var(--fd-radius-xl) 0;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   WINDOW STATES
+───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Maximized — fills the entire workspace ── */
+.fd-window.fd-window-maximized {
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 0 !important;
+  border: none !important;
+  transform: none !important;
+  /* Hide resize handles when maximized */
+}
+
+.fd-window.fd-window-maximized .fd-resize-handle {
+  display: none;
+}
+
+.fd-window.fd-window-maximized .fd-titlebar {
+  border-radius: 0;
+  cursor: default;
+}
+
+/* ── Minimized — scaled down and invisible, pending dock animation ── */
+.fd-window.fd-window-minimized {
+  opacity: 0;
+  transform: scale(0.5);
+  pointer-events: none;
+  transition:
+    opacity   var(--fd-transition-normal) ease,
+    transform var(--fd-transition-normal) cubic-bezier(0.34, 1.56, 0.64, 1.00);
+}
+
+/* ── Entering / un-minimizing ── */
+.fd-window.fd-window-animating-in {
+  animation: fd-window-enter var(--fd-transition-spring, 300ms cubic-bezier(0.34, 1.56, 0.64, 1.00)) forwards;
+}
+
+@keyframes fd-window-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.88) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ── Snapping transition ── */
+.fd-window.fd-snapping {
+  transition:
+    left   var(--fd-transition-normal),
+    top    var(--fd-transition-normal),
+    width  var(--fd-transition-normal),
+    height var(--fd-transition-normal);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   SNAP PREVIEW
+   Shown as a ghost outline while dragging near snap zones.
+───────────────────────────────────────────────────────────────────────────── */
+.fd-snap-preview {
+  position: absolute;
+  z-index: 99;
+  pointer-events: none;
+
+  border: 2px dashed var(--fd-accent);
+  border-radius: var(--fd-radius-lg);
+  background: var(--fd-accent-glow);
+
+  /* Entry animation */
+  animation: fd-snap-preview-in 120ms ease forwards;
+}
+
+@keyframes fd-snap-preview-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   WINDOW TOOLBAR (optional, below titlebar)
+   For windows that expose a secondary action bar.
+───────────────────────────────────────────────────────────────────────────── */
+.fd-window-toolbar {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 10px;
+  gap: 4px;
+  flex-shrink: 0;
+  border-bottom: 0.5px solid var(--fd-border);
+  background: var(--fd-titlebar-bg);
+}
+
+.fd-window-toolbar-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--fd-radius-sm);
+  background: transparent;
+  border: none;
+  color: var(--fd-text-secondary);
+  cursor: pointer;
+  font-size: 13px;
+  transition: background var(--fd-transition-fast), color var(--fd-transition-fast);
+}
+
+.fd-window-toolbar-button:hover {
+  background: var(--fd-bg-hover);
+  color: var(--fd-text-primary);
+}
+
+.fd-window-toolbar-button:active {
+  background: var(--fd-bg-active);
+}
+
+.fd-window-toolbar-separator {
+  width: 1px;
+  height: 16px;
+  background: var(--fd-border);
+  margin: 0 2px;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   WINDOW STATUS BAR (optional, at bottom of window)
+───────────────────────────────────────────────────────────────────────────── */
+.fd-window-statusbar {
+  display: flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 10px;
+  flex-shrink: 0;
+  border-top: 0.5px solid var(--fd-border);
+  background: var(--fd-titlebar-bg);
+  font-size: 11px;
+  color: var(--fd-text-secondary);
+  gap: 8px;
+}
+
+.fd-window-statusbar-spacer {
+  flex: 1;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   WINDOW DRAG OVERLAY
+   Fullscreen transparent div placed during drag to capture cursor
+   (prevents iframe/content from eating mousemove events).
+───────────────────────────────────────────────────────────────────────────── */
+.fd-drag-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99998;
+  cursor: grabbing;
+}

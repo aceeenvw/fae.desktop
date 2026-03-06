@@ -1,0 +1,273 @@
+/**
+ * fae.desktop — Base Styles
+ * ==========================
+ * CSS custom properties (design tokens), root layout,
+ * workspace scaffold, and body overrides for desktop mode.
+ *
+ * All --fd-* variables are declared here as defaults.
+ * The macOS skin (skins/macos.css) and color presets
+ * override specific values without touching structure.
+ */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   DESIGN TOKENS
+   All --fd-* variables with their default values.
+   Skins override these; components consume them.
+───────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* ── Typography ── */
+  --fd-font-ui: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text',
+                'Segoe UI', system-ui, sans-serif;
+  --fd-font-mono: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+
+  /* ── Background surfaces ── */
+  --fd-bg-primary:          rgba(30, 30, 35, 0.88);
+  --fd-bg-secondary:        rgba(45, 45, 52, 0.85);
+  --fd-bg-tertiary:         rgba(60, 60, 68, 0.80);
+  --fd-bg-hover:            rgba(255, 255, 255, 0.06);
+  --fd-bg-active:           rgba(255, 255, 255, 0.10);
+
+  /* ── Accent / interactive colors ── */
+  --fd-accent:              #5ba4cf;          /* Frost blue — default preset */
+  --fd-accent-hover:        #4a94bf;
+  --fd-accent-glow:         rgba(91, 164, 207, 0.30);
+  --fd-accent-text:         #ffffff;
+
+  /* ── Text ── */
+  --fd-text-primary:        rgba(255, 255, 255, 0.92);
+  --fd-text-secondary:      rgba(255, 255, 255, 0.55);
+  --fd-text-tertiary:       rgba(255, 255, 255, 0.30);
+  --fd-text-accent:         var(--fd-accent);
+  --fd-text-disabled:       rgba(255, 255, 255, 0.25);
+
+  /* ── Borders ── */
+  --fd-border:              rgba(255, 255, 255, 0.12);
+  --fd-border-active:       rgba(255, 255, 255, 0.28);
+  --fd-border-focus:        var(--fd-accent);
+
+  /* ── Window titlebar ── */
+  --fd-titlebar-bg:         rgba(38, 38, 44, 0.90);
+  --fd-titlebar-text:       rgba(255, 255, 255, 0.80);
+  --fd-titlebar-height:     36px;
+  --fd-titlebar-radius:     10px;             /* same as window top corners */
+
+  /* ── Dock ── */
+  --fd-dock-bg:             rgba(28, 28, 32, 0.72);
+  --fd-dock-border:         rgba(255, 255, 255, 0.14);
+  --fd-dock-height:         68px;
+  --fd-dock-icon-size:      48px;
+
+  /* ── Menu bar ── */
+  --fd-menubar-bg:          rgba(22, 22, 26, 0.80);
+  --fd-menubar-text:        rgba(255, 255, 255, 0.88);
+  --fd-menubar-height:      28px;
+
+  /* ── Traffic lights ── */
+  --fd-traffic-close:       #ff5f57;
+  --fd-traffic-minimize:    #ffbd2e;
+  --fd-traffic-maximize:    #28c840;
+  --fd-traffic-size:        12px;
+
+  /* ── Border radii ── */
+  --fd-radius-xs:           3px;
+  --fd-radius-sm:           4px;
+  --fd-radius-md:           8px;
+  --fd-radius-lg:           12px;
+  --fd-radius-xl:           10px;             /* standard window radius */
+  --fd-radius-2xl:          16px;
+  --fd-radius-full:         9999px;
+
+  /* ── Blur / glass ── */
+  --fd-blur:                20px;
+  --fd-blur-sm:             8px;
+  --fd-blur-lg:             32px;
+
+  /* ── Shadows ── */
+  --fd-shadow-window:
+    0 0 0 0.5px rgba(255, 255, 255, 0.08),
+    0 2px 4px  rgba(0, 0, 0, 0.20),
+    0 8px 20px rgba(0, 0, 0, 0.45),
+    0 20px 48px rgba(0, 0, 0, 0.30);
+
+  --fd-shadow-window-focused:
+    0 0 0 0.5px rgba(255, 255, 255, 0.12),
+    0 2px 4px  rgba(0, 0, 0, 0.24),
+    0 8px 24px rgba(0, 0, 0, 0.55),
+    0 24px 56px rgba(0, 0, 0, 0.40),
+    0 0 0 2px var(--fd-accent-glow);
+
+  --fd-shadow-dock:
+    0 0 0 0.5px rgba(255, 255, 255, 0.10),
+    0 4px 16px rgba(0, 0, 0, 0.40),
+    0 12px 32px rgba(0, 0, 0, 0.28);
+
+  --fd-shadow-dropdown:
+    0 0 0 0.5px rgba(255, 255, 255, 0.08),
+    0 4px 12px rgba(0, 0, 0, 0.30),
+    0 12px 32px rgba(0, 0, 0, 0.40);
+
+  --fd-shadow-tooltip:
+    0 2px 8px rgba(0, 0, 0, 0.35);
+
+  /* ── Transitions ── */
+  --fd-transition-fast:     150ms ease;
+  --fd-transition-normal:   250ms ease;
+  --fd-transition-slow:     400ms ease;
+  --fd-transition-spring:   300ms cubic-bezier(0.34, 1.56, 0.64, 1.00);
+
+  /* ── Z-index layers ── */
+  --fd-z-wallpaper:         0;
+  --fd-z-particles:         1;
+  --fd-z-workspace:         2;
+  --fd-z-window-base:       100;
+  --fd-z-menubar:           9999;
+  --fd-z-dock:              9999;
+  --fd-z-dropdown:          10000;
+  --fd-z-ctx-menu:          10001;
+  --fd-z-toast:             10002;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   GLOBAL RESET (scoped inside fae.desktop)
+   Only touch elements inside #fd-root to avoid breaking ST.
+───────────────────────────────────────────────────────────────────────────── */
+#fd-root *,
+#fd-root *::before,
+#fd-root *::after {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#fd-root {
+  font-family: var(--fd-font-ui);
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--fd-text-primary);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   ROOT CONTAINER
+   #fd-root is the full-screen desktop canvas. It sits fixed over the entire
+   viewport, below ST's own popup/modal z-indexes but above page content.
+───────────────────────────────────────────────────────────────────────────── */
+#fd-root {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: 500; /* above ST content but below ST popups/modals (which use 9999+) */
+  isolation: isolate;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   WALLPAPER LAYER
+   Stretched behind everything; JS sets background-image and optional blur/dim.
+───────────────────────────────────────────────────────────────────────────── */
+#fd-wallpaper {
+  position: absolute;
+  inset: 0;
+  z-index: var(--fd-z-wallpaper);
+  background-color: #1a1a20;         /* fallback when no image is set */
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  transition: background-image var(--fd-transition-slow);
+}
+
+/* Optional dim overlay — JS sets --fd-wallpaper-dim (0–1) */
+#fd-wallpaper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, var(--fd-wallpaper-dim, 0));
+  transition: background var(--fd-transition-normal);
+  pointer-events: none;
+}
+
+/* Optional blur overlay — JS sets --fd-wallpaper-blur (px) */
+#fd-wallpaper.fd-wallpaper-blurred {
+  filter: blur(var(--fd-wallpaper-blur, 0px));
+  transform: scale(1.05); /* prevent blur edge bleed */
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   WORKSPACE
+   The area between the menu bar (top) and the dock (bottom) where windows live.
+───────────────────────────────────────────────────────────────────────────── */
+#fd-workspace {
+  position: absolute;
+  inset: var(--fd-menubar-height) 0 var(--fd-dock-height) 0;
+  z-index: var(--fd-z-workspace);
+  overflow: hidden;  /* windows don't escape the workspace */
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   BODY OVERRIDES (applied when desktop mode is active)
+   We hide ST's original chrome elements that are replaced by fae.desktop's own.
+───────────────────────────────────────────────────────────────────────────── */
+
+/* Hide ST's top navigation bar (replaced by our menu bar) */
+body.fd-active #top-bar {
+  display: none !important;
+}
+
+/* Hide ST's background image wrapper (replaced by our wallpaper layer) */
+body.fd-active #bg_custom,
+body.fd-active > .bg {
+  display: none !important;
+}
+
+/* Remove any top-padding ST applies to account for the hidden top-bar */
+body.fd-active #sheld {
+  position: static !important;
+  top: unset !important;
+  padding-top: unset !important;
+  margin-top: unset !important;
+  height: 100% !important;
+}
+
+/* Prevent body scrollbar bleed-through */
+body.fd-active {
+  overflow: hidden !important;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   UTILITY CLASSES
+───────────────────────────────────────────────────────────────────────────── */
+
+/* Screen-reader accessible hidden text */
+.fd-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Prevent text selection on interactive chrome */
+.fd-no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Focus ring for accessibility */
+.fd-focus-ring:focus-visible {
+  outline: 2px solid var(--fd-accent);
+  outline-offset: 2px;
+  border-radius: var(--fd-radius-sm);
+}
+
+/* Flex shorthand helpers */
+.fd-flex        { display: flex; }
+.fd-flex-center { display: flex; align-items: center; justify-content: center; }
+.fd-flex-col    { display: flex; flex-direction: column; }

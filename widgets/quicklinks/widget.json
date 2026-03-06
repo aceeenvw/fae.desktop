@@ -1,0 +1,18 @@
+{
+  "id": "quicklinks",
+  "name": "quicklinks.app",
+  "icon": "🔗",
+  "version": "1.0.0",
+  "description": "Quick links list — Finder sidebar style",
+  "author": "aceeenvw",
+  "default_size": { "width": 250, "height": 200 },
+  "min_size": { "width": 200, "height": 140 },
+  "resizable": true,
+  "settings": {
+    "links": {
+      "type": "text",
+      "default": "",
+      "label": "Links (one per line: emoji|label|url)"
+    }
+  }
+}

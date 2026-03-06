@@ -1,0 +1,267 @@
+/**
+ * fae.desktop — macOS Skin
+ * =========================
+ * The default skin for fae.desktop. Defines the macOS-inspired glass,
+ * dark Aqua surfaces, and vibrancy values. Loaded last in style.css
+ * so it can override base.css defaults where needed.
+ *
+ * Color presets (frost.css, rose.css, moss.css) override only the
+ * --fd-accent group of variables; this file sets everything else.
+ */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   macOS DARK AQUA — CORE SKIN OVERRIDES
+   These values reinforce the base.css defaults with macOS-accurate colors.
+───────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* ── Surfaces — macOS dark vibrancy palette ── */
+  --fd-bg-primary:          rgba(28, 28, 32, 0.88);
+  --fd-bg-secondary:        rgba(44, 44, 50, 0.84);
+  --fd-bg-tertiary:         rgba(58, 58, 66, 0.80);
+  --fd-bg-hover:            rgba(255, 255, 255, 0.055);
+  --fd-bg-active:           rgba(255, 255, 255, 0.095);
+
+  /* ── Borders ── */
+  --fd-border:              rgba(255, 255, 255, 0.11);
+  --fd-border-active:       rgba(255, 255, 255, 0.26);
+
+  /* ── Titlebar — slightly lighter than window body ── */
+  --fd-titlebar-bg:         rgba(40, 40, 46, 0.92);
+  --fd-titlebar-text:       rgba(255, 255, 255, 0.82);
+
+  /* ── Dock — more opaque for contrast ── */
+  --fd-dock-bg:             rgba(24, 24, 28, 0.75);
+  --fd-dock-border:         rgba(255, 255, 255, 0.13);
+
+  /* ── Menu bar — darkest surface, highest contrast ── */
+  --fd-menubar-bg:          rgba(20, 20, 24, 0.82);
+  --fd-menubar-text:        rgba(255, 255, 255, 0.90);
+
+  /* ── Blur depth — macOS uses ~20px for most UI ── */
+  --fd-blur:                20px;
+  --fd-blur-sm:             8px;
+  --fd-blur-lg:             32px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   macOS WINDOW CHROME REFINEMENTS
+   Additional details that give the glass its authentic feel.
+───────────────────────────────────────────────────────────────────────────── */
+
+/* Inner highlight line at top of window (light catching the edge) */
+.fd-window::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.18) 20%,
+    rgba(255, 255, 255, 0.28) 50%,
+    rgba(255, 255, 255, 0.18) 80%,
+    transparent 100%
+  );
+  border-radius: var(--fd-radius-xl) var(--fd-radius-xl) 0 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Focused window gets a brighter highlight */
+.fd-window.fd-window-focused::before {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.22) 20%,
+    rgba(255, 255, 255, 0.35) 50%,
+    rgba(255, 255, 255, 0.22) 80%,
+    transparent 100%
+  );
+}
+
+/* Subtle color wash — macOS windows pick up a tint from the content */
+.fd-window .fd-window-content::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.020) 0%,
+    transparent 40%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   macOS MENU BAR REFINEMENTS
+───────────────────────────────────────────────────────────────────────────── */
+
+/* Bottom edge shimmer */
+#fd-menubar::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 0.5px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.20) 30%,
+    rgba(255, 255, 255, 0.28) 50%,
+    rgba(255, 255, 255, 0.20) 70%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   macOS DOCK REFINEMENTS
+───────────────────────────────────────────────────────────────────────────── */
+
+/* Top edge highlight on the dock pill */
+#fd-dock::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 12px;
+  right: 12px;
+  height: 0.5px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.25) 30%,
+    rgba(255, 255, 255, 0.35) 50%,
+    rgba(255, 255, 255, 0.25) 70%,
+    transparent 100%
+  );
+  border-radius: var(--fd-radius-full);
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   COLOR PRESETS
+   These override only the accent + glow tokens.
+   Applied as data-fd-skin="frost|rose|moss" on #fd-root.
+───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Frost — cool blue ── */
+#fd-root[data-fd-skin="frost"],
+#fd-root[data-fd-skin="frost"] :root {
+  --fd-accent:       #5ba4cf;
+  --fd-accent-hover: #4a94bf;
+  --fd-accent-glow:  rgba(91, 164, 207, 0.30);
+}
+
+/* ── Rosé — warm pink-mauve ── */
+#fd-root[data-fd-skin="rose"] {
+  --fd-accent:       #cf7b96;
+  --fd-accent-hover: #bf6a85;
+  --fd-accent-glow:  rgba(207, 123, 150, 0.30);
+}
+
+/* ── Moss — green earthy ── */
+#fd-root[data-fd-skin="moss"] {
+  --fd-accent:       #7baf6b;
+  --fd-accent-hover: #6a9e5a;
+  --fd-accent-glow:  rgba(123, 175, 107, 0.30);
+}
+
+/* ── Aqua (default macOS blue) ── */
+#fd-root[data-fd-skin="macos"],
+#fd-root:not([data-fd-skin]) {
+  --fd-accent:       #0a84ff;
+  --fd-accent-hover: #0070e0;
+  --fd-accent-glow:  rgba(10, 132, 255, 0.28);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   TOAST NOTIFICATIONS
+   Global notification toasts (outside of windows).
+───────────────────────────────────────────────────────────────────────────── */
+#fd-toast-container {
+  position: fixed;
+  bottom: calc(var(--fd-dock-height) + 12px);
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: var(--fd-z-toast);
+  pointer-events: none;
+}
+
+.fd-toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  max-width: 320px;
+  min-width: 200px;
+
+  background: var(--fd-bg-primary);
+  backdrop-filter: blur(var(--fd-blur));
+  -webkit-backdrop-filter: blur(var(--fd-blur));
+  border: 0.5px solid var(--fd-border);
+  border-radius: var(--fd-radius-lg);
+  box-shadow: var(--fd-shadow-dropdown);
+
+  font-size: 13px;
+  color: var(--fd-text-primary);
+  pointer-events: auto;
+
+  animation: fd-toast-in 250ms cubic-bezier(0.34, 1.56, 0.64, 1.00) both;
+}
+
+.fd-toast.fd-toast-exit {
+  animation: fd-toast-out 200ms ease both;
+}
+
+.fd-toast-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.fd-toast-body {
+  flex: 1;
+}
+
+.fd-toast-title {
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+
+.fd-toast-message {
+  font-size: 12px;
+  color: var(--fd-text-secondary);
+  line-height: 1.4;
+}
+
+.fd-toast-close {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: var(--fd-text-secondary);
+  cursor: pointer;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background var(--fd-transition-fast), color var(--fd-transition-fast);
+}
+
+.fd-toast-close:hover {
+  background: var(--fd-bg-hover);
+  color: var(--fd-text-primary);
+}
+
+/* Toast type variants */
+.fd-toast.fd-toast-success { border-left: 2px solid #28c840; }
+.fd-toast.fd-toast-error   { border-left: 2px solid #ff5f57; }
+.fd-toast.fd-toast-warning { border-left: 2px solid #ffbd2e; }
+.fd-toast.fd-toast-info    { border-left: 2px solid var(--fd-accent); }

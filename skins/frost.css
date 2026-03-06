@@ -1,0 +1,123 @@
+/*
+ * fae.desktop — Frost skin
+ * Cool blue-gray color preset
+ * Overrides accent colors and applies cool-toned atmospheric touches
+ */
+
+:root[data-fd-skin="frost"] {
+    /* ── Accent palette ─────────────────────────────────────────── */
+    --fd-accent:             #5ba4cf;
+    --fd-accent-hover:       #74b5d9;
+    --fd-accent-glow:        rgba(91, 164, 207, 0.3);
+    --fd-text-accent:        #5ba4cf;
+
+    /* ── Background tints — slightly cooler ─────────────────────── */
+    --fd-bg-primary:         rgba(20, 25, 35, 0.88);
+    --fd-bg-secondary:       rgba(30, 38, 52, 0.75);
+    --fd-bg-tertiary:        rgba(15, 20, 30, 0.6);
+
+    /* ── Borders ────────────────────────────────────────────────── */
+    --fd-border:             rgba(91, 164, 207, 0.15);
+    --fd-border-active:      rgba(91, 164, 207, 0.4);
+
+    /* ── Titlebar — cool steel tint ──────────────────────────────── */
+    --fd-titlebar-bg:        rgba(22, 30, 46, 0.92);
+    --fd-titlebar-text:      rgba(190, 215, 235, 0.9);
+
+    /* ── Dock — icy base ─────────────────────────────────────────── */
+    --fd-dock-bg:            rgba(18, 26, 42, 0.82);
+    --fd-dock-border:        rgba(91, 164, 207, 0.18);
+    --fd-shadow-dock:        0 -2px 32px rgba(91, 164, 207, 0.12),
+                             0 8px 48px rgba(0, 0, 0, 0.55);
+
+    /* ── Menu bar ───────────────────────────────────────────────── */
+    --fd-menubar-bg:         rgba(16, 22, 34, 0.92);
+    --fd-menubar-text:       rgba(185, 210, 230, 0.88);
+
+    /* ── Window shadow with frost tint ──────────────────────────── */
+    --fd-shadow-window:      0 8px 32px rgba(0, 0, 0, 0.6),
+                             0 0 0 1px rgba(91, 164, 207, 0.08),
+                             0 0 48px rgba(91, 164, 207, 0.06);
+}
+
+/* ── Titlebar highlight — subtle cool shimmer ───────────────────── */
+:root[data-fd-skin="frost"] .fd-window-titlebar {
+    background: linear-gradient(
+        180deg,
+        rgba(91, 164, 207, 0.06) 0%,
+        transparent 100%
+    );
+    border-bottom-color: rgba(91, 164, 207, 0.12);
+}
+
+/* ── Titlebar title text — ice blue tint ──────────────────────── */
+:root[data-fd-skin="frost"] .fd-window-title {
+    color: rgba(190, 220, 240, 0.85);
+    text-shadow: 0 0 12px rgba(91, 164, 207, 0.2);
+}
+
+/* ── Active window — frost border glow ─────────────────────────── */
+:root[data-fd-skin="frost"] .fd-window.fd-focused {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(91, 164, 207, 0.25),
+                0 0 24px rgba(91, 164, 207, 0.08);
+}
+
+/* ── Dock icon hover — icy glow ─────────────────────────────────── */
+:root[data-fd-skin="frost"] .fd-dock-icon:hover {
+    filter: drop-shadow(0 0 8px rgba(91, 164, 207, 0.5));
+}
+
+/* ── Dock active indicator dot — frost accent ───────────────────── */
+:root[data-fd-skin="frost"] .fd-dock-indicator {
+    background: radial-gradient(
+        circle,
+        rgba(91, 164, 207, 0.9) 0%,
+        rgba(91, 164, 207, 0.3) 70%,
+        transparent 100%
+    );
+    box-shadow: 0 0 6px rgba(91, 164, 207, 0.6);
+}
+
+/* ── Dock ambient glow strip ─────────────────────────────────────── */
+:root[data-fd-skin="frost"] #fd-dock::before {
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(91, 164, 207, 0.08) 30%,
+        rgba(91, 164, 207, 0.12) 50%,
+        rgba(91, 164, 207, 0.08) 70%,
+        transparent 100%
+    );
+}
+
+/* ── Menu bar separator ──────────────────────────────────────────── */
+:root[data-fd-skin="frost"] #fd-menubar {
+    border-bottom: 1px solid rgba(91, 164, 207, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(91, 164, 207, 0.04);
+}
+
+/* ── Scrollbar tint ──────────────────────────────────────────────── */
+:root[data-fd-skin="frost"] .fd-window-content::-webkit-scrollbar-thumb {
+    background: rgba(91, 164, 207, 0.25);
+}
+:root[data-fd-skin="frost"] .fd-window-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(91, 164, 207, 0.4);
+}
+
+/* ── Button accent states ────────────────────────────────────────── */
+:root[data-fd-skin="frost"] .fd-btn-primary {
+    background: rgba(91, 164, 207, 0.85);
+    box-shadow: 0 0 12px rgba(91, 164, 207, 0.3);
+}
+:root[data-fd-skin="frost"] .fd-btn-primary:hover {
+    background: rgba(116, 181, 217, 0.9);
+    box-shadow: 0 0 18px rgba(91, 164, 207, 0.45);
+}
+
+/* ── Selection highlight ─────────────────────────────────────────── */
+:root[data-fd-skin="frost"] ::selection {
+    background: rgba(91, 164, 207, 0.3);
+    color: #e8f4fc;
+}

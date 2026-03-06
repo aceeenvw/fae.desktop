@@ -1,0 +1,914 @@
+<!-- fae.desktop — Settings Panel -->
+<!-- Follows SillyTavern inline-drawer pattern -->
+
+<div id="fae-desktop-settings" class="fae-desktop-settings-root">
+
+    <!-- ══════════════════════════════════════════════════════════
+         SECTION 1 — General
+    ═══════════════════════════════════════════════════════════════ -->
+    <div class="inline-drawer">
+        <div class="inline-drawer-toggle inline-drawer-header">
+            <b data-i18n="fd_section_general">General</b>
+            <div class="inline-drawer-icon fa-solid fa-circle-chevron-down"></div>
+        </div>
+        <div class="inline-drawer-content">
+
+            <!-- Enable toggle -->
+            <div class="flex-container alignitemscenter">
+                <label class="checkbox_label" title="" data-i18n="[title]fd_enable_tooltip">
+                    <input type="checkbox"
+                           id="fd-setting-enabled"
+                           data-fd-setting="enabled" />
+                    <span data-i18n="fd_enable_label">Enable fae.desktop</span>
+                </label>
+            </div>
+
+            <hr class="sysHR" />
+
+            <!-- Skin selector -->
+            <div class="flex-container alignitemscenter spaceBetween">
+                <label for="fd-setting-skin" data-i18n="fd_skin_label">Color Skin</label>
+                <select id="fd-setting-skin"
+                        data-fd-setting="skin"
+                        class="text_pole">
+                    <option value="macos"  data-i18n="fd_skin_macos">macOS Default</option>
+                    <option value="frost"  data-i18n="fd_skin_frost">Frost</option>
+                    <option value="rose"   data-i18n="fd_skin_rose">Rosé</option>
+                    <option value="moss"   data-i18n="fd_skin_moss">Moss</option>
+                </select>
+            </div>
+
+            <!-- Accent color custom override -->
+            <div class="flex-container alignitemscenter spaceBetween" style="margin-top:8px;">
+                <label for="fd-setting-accentColor" data-i18n="fd_accent_label">
+                    Custom Accent Color
+                    <small class="fd-hint" data-i18n="fd_accent_hint">(overrides skin preset)</small>
+                </label>
+                <div class="flex-container alignitemscenter" style="gap:8px;">
+                    <input type="color"
+                           id="fd-setting-accentColor"
+                           data-fd-setting="accentColor"
+                           class="fd-color-picker" />
+                    <button class="menu_button fd-btn-sm"
+                            id="fd-accent-reset"
+                            data-i18n="fd_accent_reset">Reset</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SECTION 2 — Layout
+    ═══════════════════════════════════════════════════════════════ -->
+    <div class="inline-drawer">
+        <div class="inline-drawer-toggle inline-drawer-header">
+            <b data-i18n="fd_section_layout">Layout</b>
+            <div class="inline-drawer-icon fa-solid fa-circle-chevron-down"></div>
+        </div>
+        <div class="inline-drawer-content">
+
+            <!-- Chat alignment -->
+            <div class="fd-setting-group">
+                <div class="fd-setting-label" data-i18n="fd_chat_align_label">Chat Alignment</div>
+                <div class="flex-container" style="gap:8px; flex-wrap:wrap; margin-top:4px;">
+                    <label class="checkbox_label fd-radio-label">
+                        <input type="radio"
+                               name="fd-chatAlign"
+                               value="left"
+                               data-fd-setting="chatAlign" />
+                        <span data-i18n="fd_align_left">Left</span>
+                    </label>
+                    <label class="checkbox_label fd-radio-label">
+                        <input type="radio"
+                               name="fd-chatAlign"
+                               value="right"
+                               data-fd-setting="chatAlign" />
+                        <span data-i18n="fd_align_right">Right</span>
+                    </label>
+                    <label class="checkbox_label fd-radio-label">
+                        <input type="radio"
+                               name="fd-chatAlign"
+                               value="center"
+                               data-fd-setting="chatAlign" />
+                        <span data-i18n="fd_align_center">Center</span>
+                    </label>
+                    <label class="checkbox_label fd-radio-label">
+                        <input type="radio"
+                               name="fd-chatAlign"
+                               value="full"
+                               data-fd-setting="chatAlign" />
+                        <span data-i18n="fd_align_full">Full Width</span>
+                    </label>
+                </div>
+            </div>
+
+            <hr class="sysHR" />
+
+            <!-- Snap toggles -->
+            <div class="flex-container alignitemscenter">
+                <label class="checkbox_label">
+                    <input type="checkbox"
+                           id="fd-setting-snapToEdges"
+                           data-fd-setting="snapToEdges" />
+                    <span data-i18n="fd_snap_edges">Snap windows to screen edges</span>
+                </label>
+            </div>
+            <div class="flex-container alignitemscenter" style="margin-top:4px;">
+                <label class="checkbox_label">
+                    <input type="checkbox"
+                           id="fd-setting-snapToWindows"
+                           data-fd-setting="snapToWindows" />
+                    <span data-i18n="fd_snap_windows">Snap windows to each other</span>
+                </label>
+            </div>
+
+            <hr class="sysHR" />
+
+            <!-- Window opacity -->
+            <div class="fd-setting-group">
+                <div class="flex-container alignitemscenter spaceBetween">
+                    <label for="fd-setting-windowOpacity" data-i18n="fd_window_opacity">Window Opacity</label>
+                    <span id="fd-windowOpacity-value" class="fd-slider-value">100%</span>
+                </div>
+                <input type="range"
+                       id="fd-setting-windowOpacity"
+                       data-fd-setting="windowOpacity"
+                       min="30" max="100" step="1"
+                       class="neo-range-slider" />
+            </div>
+
+            <!-- Per-character layout memory -->
+            <div class="flex-container alignitemscenter" style="margin-top:8px;">
+                <label class="checkbox_label">
+                    <input type="checkbox"
+                           id="fd-setting-rememberPerChar"
+                           data-fd-setting="rememberPerChar" />
+                    <span data-i18n="fd_remember_per_char">Remember layout per character</span>
+                </label>
+            </div>
+
+            <hr class="sysHR" />
+
+            <!-- Layout preset management -->
+            <div class="fd-setting-group">
+                <div class="fd-setting-label" data-i18n="fd_layout_presets">Layout Presets</div>
+                <div class="flex-container alignitemscenter" style="gap:6px; margin-top:6px; flex-wrap:wrap;">
+                    <select id="fd-layout-select"
+                            class="text_pole fd-layout-select"
+                            title=""
+                            data-i18n="[title]fd_layout_select_tooltip">
+                    </select>
+                    <button class="menu_button fd-btn-sm"
+                            id="fd-layout-load"
+                            data-i18n="fd_layout_load">Load</button>
+                    <button class="menu_button fd-btn-sm"
+                            id="fd-layout-save"
+                            data-i18n="fd_layout_save">Save As…</button>
+                    <button class="menu_button fd-btn-sm fd-btn-danger"
+                            id="fd-layout-delete"
+                            data-i18n="fd_layout_delete">Delete</button>
+                    <button class="menu_button fd-btn-sm"
+                            id="fd-layout-reset"
+                            data-i18n="fd_layout_reset">Reset</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SECTION 3 — Chat
+    ═══════════════════════════════════════════════════════════════ -->
+    <div class="inline-drawer">
+        <div class="inline-drawer-toggle inline-drawer-header">
+            <b data-i18n="fd_section_chat">Chat</b>
+            <div class="inline-drawer-icon fa-solid fa-circle-chevron-down"></div>
+        </div>
+        <div class="inline-drawer-content">
+
+            <!-- Avatar size -->
+            <div class="fd-setting-group">
+                <div class="flex-container alignitemscenter spaceBetween">
+                    <label for="fd-setting-avatarSize" data-i18n="fd_avatar_size">Avatar Size</label>
+                    <span id="fd-avatarSize-value" class="fd-slider-value">40px</span>
+                </div>
+                <input type="range"
+                       id="fd-setting-avatarSize"
+                       data-fd-setting="chat.avatarSize"
+                       min="32" max="128" step="2"
+                       class="neo-range-slider" />
+            </div>
+
+            <hr class="sysHR" />
+
+            <!-- Avatar shape -->
+            <div class="fd-setting-group">
+                <div class="fd-setting-label" data-i18n="fd_avatar_shape">Avatar Shape</div>
+                <div class="flex-container" style="gap:8px; flex-wrap:wrap; margin-top:4px;">
+                    <label class="checkbox_label fd-radio-label">
+                        <input type="radio"
+                               name="fd-avatarShape"
+                               value="circle"
+                               data-fd-setting="chat.avatarShape" />
+                        <span data-i18n="fd_shape_circle">Circle</span>
+                    </label>
+                    <label class="checkbox_label fd-radio-label">
+                        <input type="radio"
+                               name="fd-avatarShape"
+                               value="rounded"
+                               data-fd-setting="chat.avatarShape" />
+                        <span data-i18n="fd_shape_rounded">Rounded</span>
+                    </label>
+                    <label class="checkbox_label fd-radio-label">
+                        <input type="radio"
+                               name="fd-avatarShape"
+                               value="square"
+                               data-fd-setting="chat.avatarShape" />
+                        <span data-i18n="fd_shape_square">Square</span>
+                    </label>
+                    <label class="checkbox_label fd-radio-label">
+                        <input type="radio"
+                               name="fd-avatarShape"
+                               value="hexagon"
+                               data-fd-setting="chat.avatarShape" />
+                        <span data-i18n="fd_shape_hexagon">Hexagon</span>
+                    </label>
+                </div>
+            </div>
+
+            <hr class="sysHR" />
+
+            <!-- Message direction -->
+            <div class="fd-setting-group">
+                <div class="fd-setting-label" data-i18n="fd_message_direction">Message Layout</div>
+                <div class="flex-container" style="gap:8px; flex-wrap:wrap; margin-top:4px;">
+                    <label class="checkbox_label fd-radio-label">
+                        <input type="radio"
+                               name="fd-messageDirection"
+                               value="classic"
+                               data-fd-setting="chat.messageDirection" />
+                        <span data-i18n="fd_direction_classic">Classic</span>
+                    </label>
+                    <label class="checkbox_label fd-radio-label">
+                        <input type="radio"
+                               name="fd-messageDirection"
+                               value="split"
+                               data-fd-setting="chat.messageDirection" />
+                        <span data-i18n="fd_direction_split">Split (iMessage style)</span>
+                    </label>
+                </div>
+            </div>
+
+            <hr class="sysHR" />
+
+            <!-- Timestamps on hover -->
+            <div class="flex-container alignitemscenter">
+                <label class="checkbox_label">
+                    <input type="checkbox"
+                           id="fd-setting-timestampsOnHover"
+                           data-fd-setting="chat.timestampsOnHover" />
+                    <span data-i18n="fd_timestamps_hover">Show timestamps on hover</span>
+                </label>
+            </div>
+
+            <!-- Compact mode -->
+            <div class="flex-container alignitemscenter" style="margin-top:4px;">
+                <label class="checkbox_label">
+                    <input type="checkbox"
+                           id="fd-setting-compact"
+                           data-fd-setting="chat.compact" />
+                    <span data-i18n="fd_compact_mode">Compact message spacing</span>
+                </label>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SECTION 4 — Dock
+    ═══════════════════════════════════════════════════════════════ -->
+    <div class="inline-drawer">
+        <div class="inline-drawer-toggle inline-drawer-header">
+            <b data-i18n="fd_section_dock">Dock</b>
+            <div class="inline-drawer-icon fa-solid fa-circle-chevron-down"></div>
+        </div>
+        <div class="inline-drawer-content">
+
+            <!-- Auto-hide -->
+            <div class="flex-container alignitemscenter">
+                <label class="checkbox_label">
+                    <input type="checkbox"
+                           id="fd-setting-dockAutoHide"
+                           data-fd-setting="dock.autoHide" />
+                    <span data-i18n="fd_dock_autohide">Auto-hide dock</span>
+                </label>
+            </div>
+
+            <!-- Magnification -->
+            <div class="flex-container alignitemscenter" style="margin-top:4px;">
+                <label class="checkbox_label">
+                    <input type="checkbox"
+                           id="fd-setting-dockMagnification"
+                           data-fd-setting="dock.magnification" />
+                    <span data-i18n="fd_dock_magnification">Icon magnification on hover</span>
+                </label>
+            </div>
+
+            <hr class="sysHR" />
+
+            <!-- Icon size -->
+            <div class="fd-setting-group">
+                <div class="flex-container alignitemscenter spaceBetween">
+                    <label for="fd-setting-dockIconSize" data-i18n="fd_dock_icon_size">Icon Size</label>
+                    <span id="fd-dockIconSize-value" class="fd-slider-value">48px</span>
+                </div>
+                <input type="range"
+                       id="fd-setting-dockIconSize"
+                       data-fd-setting="dock.iconSize"
+                       min="28" max="80" step="2"
+                       class="neo-range-slider" />
+            </div>
+
+            <!-- Magnification scale -->
+            <div class="fd-setting-group" id="fd-dock-magscale-group">
+                <div class="flex-container alignitemscenter spaceBetween">
+                    <label for="fd-setting-dockMagnificationScale" data-i18n="fd_dock_mag_scale">
+                        Magnification Scale
+                    </label>
+                    <span id="fd-dockMagnificationScale-value" class="fd-slider-value">1.5×</span>
+                </div>
+                <input type="range"
+                       id="fd-setting-dockMagnificationScale"
+                       data-fd-setting="dock.magnificationScale"
+                       min="1.1" max="2.5" step="0.05"
+                       class="neo-range-slider" />
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SECTION 5 — Menu Bar
+    ═══════════════════════════════════════════════════════════════ -->
+    <div class="inline-drawer">
+        <div class="inline-drawer-toggle inline-drawer-header">
+            <b data-i18n="fd_section_menubar">Menu Bar</b>
+            <div class="inline-drawer-icon fa-solid fa-circle-chevron-down"></div>
+        </div>
+        <div class="inline-drawer-content">
+
+            <!-- Show menu bar -->
+            <div class="flex-container alignitemscenter">
+                <label class="checkbox_label">
+                    <input type="checkbox"
+                           id="fd-setting-menubarShow"
+                           data-fd-setting="menubar.show" />
+                    <span data-i18n="fd_menubar_show">Show menu bar</span>
+                </label>
+            </div>
+
+            <hr class="sysHR" />
+
+            <!-- Menu bar items -->
+            <div class="fd-setting-label" data-i18n="fd_menubar_items">Menu Bar Items</div>
+
+            <div class="flex-container alignitemscenter" style="margin-top:6px;">
+                <label class="checkbox_label">
+                    <input type="checkbox"
+                           id="fd-setting-menubarShowClock"
+                           data-fd-setting="menubar.showClock" />
+                    <span data-i18n="fd_menubar_clock">Clock</span>
+                </label>
+            </div>
+            <div class="flex-container alignitemscenter" style="margin-top:4px;">
+                <label class="checkbox_label">
+                    <input type="checkbox"
+                           id="fd-setting-menubarShowDate"
+                           data-fd-setting="menubar.showDate" />
+                    <span data-i18n="fd_menubar_date">Date</span>
+                </label>
+            </div>
+            <div class="flex-container alignitemscenter" style="margin-top:4px;">
+                <label class="checkbox_label">
+                    <input type="checkbox"
+                           id="fd-setting-menubarShowCharName"
+                           data-fd-setting="menubar.showCharName" />
+                    <span data-i18n="fd_menubar_charname">Current character name</span>
+                </label>
+            </div>
+            <div class="flex-container alignitemscenter" style="margin-top:4px;">
+                <label class="checkbox_label">
+                    <input type="checkbox"
+                           id="fd-setting-menubarShowTokens"
+                           data-fd-setting="menubar.showTokens" />
+                    <span data-i18n="fd_menubar_tokens">Token counter</span>
+                </label>
+            </div>
+
+            <hr class="sysHR" />
+
+            <!-- Clock format -->
+            <div class="fd-setting-group">
+                <div class="fd-setting-label" data-i18n="fd_clock_format">Clock Format</div>
+                <div class="flex-container" style="gap:8px; margin-top:4px;">
+                    <label class="checkbox_label fd-radio-label">
+                        <input type="radio"
+                               name="fd-clockFormat"
+                               value="12h"
+                               data-fd-setting="menubar.clockFormat" />
+                        <span data-i18n="fd_clock_12h">12-hour (AM/PM)</span>
+                    </label>
+                    <label class="checkbox_label fd-radio-label">
+                        <input type="radio"
+                               name="fd-clockFormat"
+                               value="24h"
+                               data-fd-setting="menubar.clockFormat" />
+                        <span data-i18n="fd_clock_24h">24-hour</span>
+                    </label>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SECTION 6 — Wallpaper
+    ═══════════════════════════════════════════════════════════════ -->
+    <div class="inline-drawer">
+        <div class="inline-drawer-toggle inline-drawer-header">
+            <b data-i18n="fd_section_wallpaper">Wallpaper</b>
+            <div class="inline-drawer-icon fa-solid fa-circle-chevron-down"></div>
+        </div>
+        <div class="inline-drawer-content">
+
+            <!-- Use ST background -->
+            <div class="flex-container alignitemscenter">
+                <label class="checkbox_label">
+                    <input type="checkbox"
+                           id="fd-setting-wallpaperUseST"
+                           data-fd-setting="wallpaper.useSTBackground" />
+                    <span data-i18n="fd_wallpaper_use_st">Use SillyTavern background</span>
+                </label>
+            </div>
+
+            <hr class="sysHR" />
+
+            <!-- Custom URL -->
+            <div class="fd-setting-group">
+                <label for="fd-setting-wallpaperUrl" data-i18n="fd_wallpaper_custom_url">
+                    Custom Wallpaper URL
+                </label>
+                <div class="flex-container alignitemscenter" style="gap:6px; margin-top:4px;">
+                    <input type="url"
+                           id="fd-setting-wallpaperUrl"
+                           data-fd-setting="wallpaper.customUrl"
+                           class="text_pole"
+                           placeholder="https://..."
+                           data-i18n="[placeholder]fd_wallpaper_url_placeholder" />
+                    <button class="menu_button fd-btn-sm"
+                            id="fd-wallpaper-apply"
+                            data-i18n="fd_wallpaper_apply">Apply</button>
+                </div>
+            </div>
+
+            <hr class="sysHR" />
+
+            <!-- Fit -->
+            <div class="flex-container alignitemscenter spaceBetween">
+                <label for="fd-setting-wallpaperFit" data-i18n="fd_wallpaper_fit">Image Fit</label>
+                <select id="fd-setting-wallpaperFit"
+                        data-fd-setting="wallpaper.fit"
+                        class="text_pole fd-select-sm">
+                    <option value="cover"   data-i18n="fd_fit_cover">Cover</option>
+                    <option value="contain" data-i18n="fd_fit_contain">Contain</option>
+                    <option value="tile"    data-i18n="fd_fit_tile">Tile</option>
+                </select>
+            </div>
+
+            <hr class="sysHR" />
+
+            <!-- Blur -->
+            <div class="fd-setting-group" style="margin-top:6px;">
+                <div class="flex-container alignitemscenter spaceBetween">
+                    <label for="fd-setting-wallpaperBlur" data-i18n="fd_wallpaper_blur">Blur</label>
+                    <span id="fd-wallpaperBlur-value" class="fd-slider-value">0px</span>
+                </div>
+                <input type="range"
+                       id="fd-setting-wallpaperBlur"
+                       data-fd-setting="wallpaper.blur"
+                       min="0" max="40" step="1"
+                       class="neo-range-slider" />
+            </div>
+
+            <!-- Dim -->
+            <div class="fd-setting-group">
+                <div class="flex-container alignitemscenter spaceBetween">
+                    <label for="fd-setting-wallpaperDim" data-i18n="fd_wallpaper_dim">Dim</label>
+                    <span id="fd-wallpaperDim-value" class="fd-slider-value">0%</span>
+                </div>
+                <input type="range"
+                       id="fd-setting-wallpaperDim"
+                       data-fd-setting="wallpaper.dim"
+                       min="0" max="90" step="1"
+                       class="neo-range-slider" />
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SECTION 7 — Particles
+    ═══════════════════════════════════════════════════════════════ -->
+    <div class="inline-drawer">
+        <div class="inline-drawer-toggle inline-drawer-header">
+            <b data-i18n="fd_section_particles">Particles</b>
+            <div class="inline-drawer-icon fa-solid fa-circle-chevron-down"></div>
+        </div>
+        <div class="inline-drawer-content">
+
+            <!-- Enable -->
+            <div class="flex-container alignitemscenter">
+                <label class="checkbox_label">
+                    <input type="checkbox"
+                           id="fd-setting-particlesEnabled"
+                           data-fd-setting="particles.enabled" />
+                    <span data-i18n="fd_particles_enable">Enable ambient particles</span>
+                </label>
+            </div>
+
+            <hr class="sysHR" />
+
+            <!-- Style -->
+            <div class="flex-container alignitemscenter spaceBetween">
+                <label for="fd-setting-particlesStyle" data-i18n="fd_particles_style">Particle Style</label>
+                <select id="fd-setting-particlesStyle"
+                        data-fd-setting="particles.style"
+                        class="text_pole fd-select-sm">
+                    <option value="fireflies" data-i18n="fd_particle_fireflies">Fireflies</option>
+                    <option value="snow"      data-i18n="fd_particle_snow">Snow</option>
+                    <option value="rain"      data-i18n="fd_particle_rain">Rain</option>
+                    <option value="embers"    data-i18n="fd_particle_embers">Embers</option>
+                    <option value="stars"     data-i18n="fd_particle_stars">Stars</option>
+                    <option value="dust"      data-i18n="fd_particle_dust">Dust</option>
+                    <option value="petals"    data-i18n="fd_particle_petals">Petals</option>
+                </select>
+            </div>
+
+            <hr class="sysHR" />
+
+            <!-- Density -->
+            <div class="fd-setting-group">
+                <div class="fd-setting-label" data-i18n="fd_particles_density">Density</div>
+                <div class="flex-container" style="gap:8px; margin-top:4px;">
+                    <label class="checkbox_label fd-radio-label">
+                        <input type="radio"
+                               name="fd-particlesDensity"
+                               value="low"
+                               data-fd-setting="particles.density" />
+                        <span data-i18n="fd_density_low">Low</span>
+                    </label>
+                    <label class="checkbox_label fd-radio-label">
+                        <input type="radio"
+                               name="fd-particlesDensity"
+                               value="medium"
+                               data-fd-setting="particles.density" />
+                        <span data-i18n="fd_density_medium">Medium</span>
+                    </label>
+                    <label class="checkbox_label fd-radio-label">
+                        <input type="radio"
+                               name="fd-particlesDensity"
+                               value="high"
+                               data-fd-setting="particles.density" />
+                        <span data-i18n="fd_density_high">High</span>
+                    </label>
+                </div>
+            </div>
+
+            <hr class="sysHR" />
+
+            <!-- Layer -->
+            <div class="fd-setting-group">
+                <div class="fd-setting-label" data-i18n="fd_particles_layer">Layer</div>
+                <div class="flex-container" style="gap:8px; margin-top:4px;">
+                    <label class="checkbox_label fd-radio-label">
+                        <input type="radio"
+                               name="fd-particlesLayer"
+                               value="behind"
+                               data-fd-setting="particles.layer" />
+                        <span data-i18n="fd_layer_behind">Behind content</span>
+                    </label>
+                    <label class="checkbox_label fd-radio-label">
+                        <input type="radio"
+                               name="fd-particlesLayer"
+                               value="over"
+                               data-fd-setting="particles.layer" />
+                        <span data-i18n="fd_layer_over">Over content</span>
+                    </label>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SECTION 8 — Widgets
+    ═══════════════════════════════════════════════════════════════ -->
+    <div class="inline-drawer">
+        <div class="inline-drawer-toggle inline-drawer-header">
+            <b data-i18n="fd_section_widgets">Widgets</b>
+            <div class="inline-drawer-icon fa-solid fa-circle-chevron-down"></div>
+        </div>
+        <div class="inline-drawer-content">
+
+            <div class="fd-setting-label" data-i18n="fd_widgets_builtin">Built-in Widgets</div>
+
+            <!-- Built-in widget toggles — rendered dynamically but
+                 static stubs here for the template -->
+            <div id="fd-widget-list" class="fd-widget-list">
+                <!-- Notes widget -->
+                <div class="flex-container alignitemscenter spaceBetween fd-widget-row"
+                     data-widget-id="notes">
+                    <div class="flex-container alignitemscenter" style="gap:8px;">
+                        <i class="fa-solid fa-note-sticky fd-widget-icon"></i>
+                        <span data-i18n="fd_widget_notes">Notes</span>
+                    </div>
+                    <label class="checkbox_label" style="margin:0;">
+                        <input type="checkbox"
+                               data-fd-widget-toggle="notes" />
+                    </label>
+                </div>
+                <!-- Gallery widget -->
+                <div class="flex-container alignitemscenter spaceBetween fd-widget-row"
+                     data-widget-id="gallery">
+                    <div class="flex-container alignitemscenter" style="gap:8px;">
+                        <i class="fa-solid fa-images fd-widget-icon"></i>
+                        <span data-i18n="fd_widget_gallery">Gallery</span>
+                    </div>
+                    <label class="checkbox_label" style="margin:0;">
+                        <input type="checkbox"
+                               data-fd-widget-toggle="gallery" />
+                    </label>
+                </div>
+                <!-- Clock widget -->
+                <div class="flex-container alignitemscenter spaceBetween fd-widget-row"
+                     data-widget-id="clock">
+                    <div class="flex-container alignitemscenter" style="gap:8px;">
+                        <i class="fa-solid fa-clock fd-widget-icon"></i>
+                        <span data-i18n="fd_widget_clock">Clock</span>
+                    </div>
+                    <label class="checkbox_label" style="margin:0;">
+                        <input type="checkbox"
+                               data-fd-widget-toggle="clock" />
+                    </label>
+                </div>
+                <!-- Status widget -->
+                <div class="flex-container alignitemscenter spaceBetween fd-widget-row"
+                     data-widget-id="status">
+                    <div class="flex-container alignitemscenter" style="gap:8px;">
+                        <i class="fa-solid fa-heart-pulse fd-widget-icon"></i>
+                        <span data-i18n="fd_widget_status">Status</span>
+                    </div>
+                    <label class="checkbox_label" style="margin:0;">
+                        <input type="checkbox"
+                               data-fd-widget-toggle="status" />
+                    </label>
+                </div>
+                <!-- Now Playing widget -->
+                <div class="flex-container alignitemscenter spaceBetween fd-widget-row"
+                     data-widget-id="now-playing">
+                    <div class="flex-container alignitemscenter" style="gap:8px;">
+                        <i class="fa-solid fa-music fd-widget-icon"></i>
+                        <span data-i18n="fd_widget_nowplaying">Now Playing</span>
+                    </div>
+                    <label class="checkbox_label" style="margin:0;">
+                        <input type="checkbox"
+                               data-fd-widget-toggle="now-playing" />
+                    </label>
+                </div>
+                <!-- Quick Links widget -->
+                <div class="flex-container alignitemscenter spaceBetween fd-widget-row"
+                     data-widget-id="quicklinks">
+                    <div class="flex-container alignitemscenter" style="gap:8px;">
+                        <i class="fa-solid fa-link fd-widget-icon"></i>
+                        <span data-i18n="fd_widget_quicklinks">Quick Links</span>
+                    </div>
+                    <label class="checkbox_label" style="margin:0;">
+                        <input type="checkbox"
+                               data-fd-widget-toggle="quicklinks" />
+                    </label>
+                </div>
+            </div>
+
+            <hr class="sysHR" />
+
+            <!-- Import widget button -->
+            <div class="flex-container" style="gap:8px; flex-wrap:wrap; margin-top:4px;">
+                <button class="menu_button"
+                        id="fd-widget-import-local"
+                        data-i18n="fd_widget_import_local">
+                    <i class="fa-solid fa-folder-open"></i>
+                    <span data-i18n="fd_widget_import_local">Import from folder</span>
+                </button>
+                <button class="menu_button"
+                        id="fd-widget-import-github"
+                        data-i18n="fd_widget_import_github">
+                    <i class="fa-brands fa-github"></i>
+                    <span data-i18n="fd_widget_import_github">Import from GitHub URL</span>
+                </button>
+            </div>
+            <div id="fd-custom-widget-list" class="fd-widget-list fd-custom-widget-list" style="margin-top:8px;">
+                <!-- Custom widgets injected here by widget-loader.js -->
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SECTION 9 — Advanced
+    ═══════════════════════════════════════════════════════════════ -->
+    <div class="inline-drawer">
+        <div class="inline-drawer-toggle inline-drawer-header">
+            <b data-i18n="fd_section_advanced">Advanced</b>
+            <div class="inline-drawer-icon fa-solid fa-circle-chevron-down"></div>
+        </div>
+        <div class="inline-drawer-content">
+
+            <!-- Debug mode -->
+            <div class="flex-container alignitemscenter">
+                <label class="checkbox_label">
+                    <input type="checkbox"
+                           id="fd-setting-debug"
+                           data-fd-setting="advanced.debug" />
+                    <span data-i18n="fd_advanced_debug">Debug mode</span>
+                </label>
+            </div>
+            <p class="fd-hint" data-i18n="fd_advanced_debug_hint">
+                Logs verbose output to browser console.
+            </p>
+
+            <!-- Expose API -->
+            <div class="flex-container alignitemscenter" style="margin-top:4px;">
+                <label class="checkbox_label">
+                    <input type="checkbox"
+                           id="fd-setting-exposeApi"
+                           data-fd-setting="advanced.exposeApi" />
+                    <span data-i18n="fd_advanced_expose_api">Expose API as window.faeDesktop</span>
+                </label>
+            </div>
+            <p class="fd-hint" data-i18n="fd_advanced_expose_api_hint">
+                Makes the extension API available globally for widget developers.
+            </p>
+
+            <hr class="sysHR" />
+
+            <!-- Custom CSS -->
+            <div class="fd-setting-group">
+                <label for="fd-setting-customCss"
+                       data-i18n="fd_advanced_custom_css">Custom CSS</label>
+                <textarea id="fd-setting-customCss"
+                          data-fd-setting="advanced.customCss"
+                          class="text_pole fd-custom-css-area"
+                          rows="8"
+                          spellcheck="false"
+                          data-i18n="[placeholder]fd_custom_css_placeholder"
+                          placeholder="/* Your custom CSS here */"></textarea>
+                <button class="menu_button fd-btn-sm"
+                        id="fd-css-apply"
+                        style="margin-top:4px;"
+                        data-i18n="fd_advanced_css_apply">Apply CSS</button>
+            </div>
+
+            <hr class="sysHR" />
+
+            <!-- Export / Import settings -->
+            <div class="fd-setting-label" data-i18n="fd_advanced_data">Data Management</div>
+            <div class="flex-container" style="gap:8px; flex-wrap:wrap; margin-top:6px;">
+                <button class="menu_button"
+                        id="fd-settings-export"
+                        data-i18n="fd_advanced_export">
+                    <i class="fa-solid fa-file-export"></i>
+                    <span data-i18n="fd_advanced_export">Export Settings</span>
+                </button>
+                <button class="menu_button"
+                        id="fd-settings-import"
+                        data-i18n="fd_advanced_import">
+                    <i class="fa-solid fa-file-import"></i>
+                    <span data-i18n="fd_advanced_import">Import Settings</span>
+                </button>
+                <input type="file"
+                       id="fd-settings-import-file"
+                       accept=".json"
+                       style="display:none;" />
+            </div>
+            <p class="fd-hint" data-i18n="fd_advanced_export_hint">
+                Settings are exported as a JSON file. Importing will overwrite all current settings.
+            </p>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- Settings panel scoped styles -->
+<style>
+.fae-desktop-settings-root {
+    padding: 4px 0;
+}
+
+.fae-desktop-settings-root .fd-setting-group {
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+
+.fae-desktop-settings-root .fd-setting-label {
+    font-size: 0.85em;
+    font-weight: 600;
+    opacity: 0.7;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+}
+
+.fae-desktop-settings-root .fd-hint {
+    font-size: 0.8em;
+    opacity: 0.55;
+    margin: 2px 0 4px 24px;
+    line-height: 1.4;
+}
+
+.fae-desktop-settings-root .fd-slider-value {
+    font-size: 0.85em;
+    opacity: 0.7;
+    min-width: 36px;
+    text-align: right;
+}
+
+.fae-desktop-settings-root .fd-radio-label {
+    min-width: fit-content;
+}
+
+.fae-desktop-settings-root .fd-color-picker {
+    width: 36px;
+    height: 28px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background: none;
+    padding: 2px;
+}
+
+.fae-desktop-settings-root .fd-btn-sm {
+    padding: 2px 8px;
+    font-size: 0.85em;
+    height: 26px;
+    white-space: nowrap;
+}
+
+.fae-desktop-settings-root .fd-btn-danger {
+    color: #ff5f57;
+    border-color: rgba(255, 95, 87, 0.3);
+}
+
+.fae-desktop-settings-root .fd-select-sm {
+    max-width: 140px;
+}
+
+.fae-desktop-settings-root .fd-layout-select {
+    flex: 1;
+    min-width: 80px;
+}
+
+.fae-desktop-settings-root .fd-widget-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 6px;
+}
+
+.fae-desktop-settings-root .fd-widget-row {
+    padding: 6px 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.fae-desktop-settings-root .fd-widget-icon {
+    width: 16px;
+    text-align: center;
+    opacity: 0.7;
+}
+
+.fae-desktop-settings-root .fd-custom-css-area {
+    width: 100%;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.82em;
+    resize: vertical;
+    margin-top: 6px;
+}
+
+.fae-desktop-settings-root .fd-custom-widget-list {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 6px;
+}
+</style>

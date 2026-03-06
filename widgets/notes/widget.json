@@ -1,0 +1,12 @@
+{
+  "id": "notes",
+  "name": "notes.app",
+  "icon": "📝",
+  "version": "1.0.0",
+  "description": "Per-character notepad with markdown preview",
+  "author": "aceeenvw",
+  "default_size": { "width": 320, "height": 400 },
+  "min_size": { "width": 240, "height": 200 },
+  "resizable": true,
+  "settings": {}
+}

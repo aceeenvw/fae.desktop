@@ -1,0 +1,23 @@
+{
+  "id": "status",
+  "name": "status.app",
+  "icon": "👤",
+  "version": "1.0.0",
+  "description": "Character status HUD card with editable fields",
+  "author": "aceeenvw",
+  "default_size": { "width": 280, "height": 300 },
+  "min_size": { "width": 220, "height": 220 },
+  "resizable": true,
+  "settings": {
+    "injectToPrompt": {
+      "type": "boolean",
+      "default": false,
+      "label": "Inject into prompt"
+    },
+    "fields": {
+      "type": "text",
+      "default": "mood,location,outfit",
+      "label": "Status fields (comma-separated)"
+    }
+  }
+}

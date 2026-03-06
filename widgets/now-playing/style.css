@@ -1,0 +1,195 @@
+/* ─── now-playing widget ────────────────────────────────────────────────────── */
+
+.fd-np-widget {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+  padding: 10px 12px;
+  box-sizing: border-box;
+  gap: 12px;
+  font-family: var(--fd-font, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+  color: var(--fd-text-primary, #1d1d1f);
+  background: transparent;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Album Art */
+.fd-np-art-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.fd-np-art-bg {
+  /* blurred/dim copy behind art for depth */
+  position: absolute;
+  inset: -4px;
+  border-radius: 14px;
+  background: var(--fd-accent-glow, rgba(91,164,207,0.2));
+  filter: blur(8px);
+  z-index: 0;
+}
+
+.fd-np-art {
+  position: relative;
+  z-index: 1;
+  width: 68px;
+  height: 68px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--fd-bg-secondary, rgba(230,230,235,0.6));
+  border: 1px solid var(--fd-border, rgba(0,0,0,0.10));
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fd-np-art-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.fd-np-art-img.hidden {
+  display: none;
+}
+
+.fd-np-art-placeholder {
+  color: var(--fd-text-secondary, #8e8e93);
+  opacity: 0.5;
+}
+
+.fd-np-art-placeholder.hidden {
+  display: none;
+}
+
+/* Info section */
+.fd-np-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow: hidden;
+}
+
+/* Track info */
+.fd-np-track {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.fd-np-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fd-text-primary, #1d1d1f);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+.fd-np-artist {
+  font-size: 11px;
+  color: var(--fd-text-secondary, #8e8e93);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Controls row */
+.fd-np-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fd-np-playpause {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: var(--fd-accent, #5ba4cf);
+  color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background var(--fd-transition-fast, 150ms ease),
+              transform var(--fd-transition-fast, 150ms ease);
+  padding: 0;
+}
+
+.fd-np-playpause:hover {
+  background: var(--fd-accent-hover, #4a93be);
+  transform: scale(1.08);
+}
+
+.fd-np-time-wrap {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-family: var(--fd-font-mono, "SF Mono", monospace);
+  font-size: 10.5px;
+  color: var(--fd-text-secondary, #8e8e93);
+}
+
+.fd-np-current {
+  color: var(--fd-text-primary, #1d1d1f);
+}
+
+.fd-np-sep {
+  opacity: 0.4;
+}
+
+/* Progress bar */
+.fd-np-progress-track {
+  position: relative;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--fd-bg-tertiary, rgba(0,0,0,0.10));
+  cursor: pointer;
+  overflow: visible;
+}
+
+.fd-np-progress-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--fd-accent, #5ba4cf);
+  width: 0%;
+  transition: width 0.5s linear;
+  pointer-events: none;
+}
+
+.fd-np-progress-fill.no-transition {
+  transition: none;
+}
+
+.fd-np-progress-thumb {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--fd-accent, #5ba4cf);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--fd-transition-fast, 150ms ease);
+  left: 0%;
+}
+
+.fd-np-progress-track:hover .fd-np-progress-thumb {
+  opacity: 1;
+}
+
+/* Audio (hidden) */
+.fd-np-audio {
+  display: none;
+}

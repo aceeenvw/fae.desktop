@@ -1,0 +1,52 @@
+/**
+ * fae.desktop — Particles Layer
+ * ==============================
+ * The ambient particle canvas sits between the wallpaper and the workspace.
+ * This file only defines the container; the actual particles are drawn by
+ * the Canvas/WebGL renderer in src/particles.js.
+ *
+ * Particle styles (density, color, size) are controlled entirely via JS.
+ * The layer can sit *behind* windows (default) or *over* them based on
+ * the particles.layer setting, toggled by JS adding .fd-particles-over.
+ */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   PARTICLES CANVAS CONTAINER
+───────────────────────────────────────────────────────────────────────────── */
+#fd-particles {
+  position: absolute;
+  inset: 0;
+
+  /* Between wallpaper (z:0) and workspace (z:2) by default */
+  z-index: var(--fd-z-particles);
+
+  /* Never block mouse events — workspace/windows remain interactive */
+  pointer-events: none;
+
+  overflow: hidden;
+}
+
+/* ── Layer "over" mode — render above windows ── */
+#fd-particles.fd-particles-over {
+  z-index: calc(var(--fd-z-menubar) - 1); /* just below menubar/dock */
+}
+
+/* ── Canvas element itself (created by particles.js) ── */
+#fd-particles canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── Hidden state (particles disabled) ── */
+#fd-particles.fd-particles-hidden {
+  opacity: 0;
+  transition: opacity var(--fd-transition-slow);
+}
+
+#fd-particles:not(.fd-particles-hidden) {
+  opacity: 1;
+  transition: opacity var(--fd-transition-slow);
+}

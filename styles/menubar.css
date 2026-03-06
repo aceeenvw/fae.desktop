@@ -1,0 +1,426 @@
+/**
+ * fae.desktop — Menu Bar Styles
+ * ==============================
+ * macOS-style global menu bar: apple logo, app menu buttons,
+ * system tray items (clock, date, character name), and dropdowns.
+ *
+ * Sits at the very top of #fd-root, always above windows.
+ */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MENU BAR CONTAINER
+───────────────────────────────────────────────────────────────────────────── */
+#fd-menubar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--fd-menubar-height);
+
+  display: flex;
+  align-items: center;
+  padding: 0 4px;
+  gap: 0;
+
+  /* Glass surface */
+  background: var(--fd-menubar-bg);
+  backdrop-filter: blur(var(--fd-blur)) saturate(1.8);
+  -webkit-backdrop-filter: blur(var(--fd-blur)) saturate(1.8);
+
+  border-bottom: 0.5px solid var(--fd-border);
+
+  font-family: var(--fd-font-ui);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--fd-menubar-text);
+
+  user-select: none;
+  -webkit-user-select: none;
+
+  z-index: var(--fd-z-menubar);
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   LEFT SIDE — Apple logo + menu buttons
+───────────────────────────────────────────────────────────────────────────── */
+.fd-menubar-left {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  flex-shrink: 0;
+  height: 100%;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   RIGHT SIDE — System tray (clock, date, char name, etc.)
+───────────────────────────────────────────────────────────────────────────── */
+.fd-menubar-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  gap: 0;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MENU BUTTON (individual clickable items in the bar)
+───────────────────────────────────────────────────────────────────────────── */
+.fd-menubar-item {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 10px;
+  cursor: pointer;
+  border-radius: var(--fd-radius-sm);
+  color: var(--fd-menubar-text);
+  font-size: 13px;
+  font-weight: 400;
+  white-space: nowrap;
+  transition: background var(--fd-transition-fast);
+  position: relative; /* for dropdown positioning */
+}
+
+/* Hover state */
+.fd-menubar-item:hover {
+  background: rgba(255, 255, 255, 0.10);
+}
+
+/* Active (dropdown open) state */
+.fd-menubar-item.fd-menubar-active {
+  background: var(--fd-accent);
+  color: #fff;
+}
+
+/* ── Apple logo button — slightly larger icon ── */
+.fd-menubar-item.fd-menubar-apple {
+  font-size: 16px;
+  padding: 0 12px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+/* ── App name (bold, identifies current "app" context) ── */
+.fd-menubar-item.fd-menubar-appname {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* ── System tray buttons (right side) ── */
+.fd-menubar-right .fd-menubar-item {
+  font-size: 12px;
+  padding: 0 8px;
+  opacity: 0.88;
+}
+
+.fd-menubar-right .fd-menubar-item:hover {
+  opacity: 1;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CLOCK & DATE (right-side tray items)
+───────────────────────────────────────────────────────────────────────────── */
+.fd-menubar-clock {
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--fd-menubar-text);
+  opacity: 0.88;
+  letter-spacing: 0.01em;
+  cursor: default;
+  white-space: nowrap;
+}
+
+.fd-menubar-date {
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  font-size: 12px;
+  color: var(--fd-menubar-text);
+  opacity: 0.68;
+  cursor: default;
+  white-space: nowrap;
+}
+
+/* ── Character name badge ── */
+.fd-menubar-charname {
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  font-size: 12px;
+  color: var(--fd-text-accent);
+  font-weight: 500;
+  cursor: default;
+  white-space: nowrap;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Token counter ── */
+.fd-menubar-tokens {
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  font-size: 11px;
+  font-family: var(--fd-font-mono);
+  color: var(--fd-text-secondary);
+  cursor: default;
+  white-space: nowrap;
+}
+
+/* ── Vertical separator between tray items ── */
+.fd-menubar-tray-sep {
+  width: 1px;
+  height: 14px;
+  background: var(--fd-border);
+  margin: 0 2px;
+  align-self: center;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   DROPDOWN MENU
+───────────────────────────────────────────────────────────────────────────── */
+.fd-dropdown {
+  position: absolute;
+  top: var(--fd-menubar-height);
+  left: 0;
+  min-width: 220px;
+
+  background: var(--fd-bg-primary);
+  backdrop-filter: blur(var(--fd-blur)) saturate(1.8);
+  -webkit-backdrop-filter: blur(var(--fd-blur)) saturate(1.8);
+
+  border: 0.5px solid var(--fd-border);
+  border-radius: var(--fd-radius-md);
+  box-shadow: var(--fd-shadow-dropdown);
+
+  padding: 4px 0;
+
+  z-index: var(--fd-z-dropdown);
+
+  /* Hidden state */
+  opacity: 0;
+  transform: translateY(-4px) scale(0.98);
+  pointer-events: none;
+  transform-origin: top left;
+
+  transition:
+    opacity   100ms ease,
+    transform 100ms ease;
+}
+
+/* Visible state */
+.fd-dropdown.fd-dropdown-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* Right-anchored dropdowns (tray items) */
+.fd-dropdown.fd-dropdown-right {
+  left: auto;
+  right: 0;
+  transform-origin: top right;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   DROPDOWN ITEM
+───────────────────────────────────────────────────────────────────────────── */
+.fd-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 20px 5px 12px;
+  font-size: 13px;
+  color: var(--fd-text-primary);
+  cursor: pointer;
+  border-radius: 0;
+  white-space: nowrap;
+  transition: background var(--fd-transition-fast), color var(--fd-transition-fast);
+}
+
+/* Hover — macOS-style full-row accent highlight with inset margins */
+.fd-dropdown-item:hover {
+  background: var(--fd-accent);
+  color: #fff;
+  border-radius: var(--fd-radius-sm);
+  margin: 0 4px;
+  padding: 5px 16px 5px 8px;
+}
+
+/* Active (mouse down) */
+.fd-dropdown-item:active {
+  filter: brightness(0.88);
+}
+
+/* ── Disabled item ── */
+.fd-dropdown-item.fd-dropdown-disabled {
+  opacity: 0.38;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ── Checkmark column (always present; visible only when active) ── */
+.fd-dropdown-item-check {
+  width: 16px;
+  flex-shrink: 0;
+  text-align: center;
+  font-size: 11px;
+  color: currentColor;
+  opacity: 0;
+  transition: opacity 100ms ease;
+}
+
+.fd-dropdown-item.fd-dropdown-checked .fd-dropdown-item-check {
+  opacity: 1;
+}
+
+/* ── Keyboard shortcut hint (right-aligned) ── */
+.fd-dropdown-item-shortcut {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--fd-text-secondary);
+  opacity: 0.7;
+  padding-left: 16px;
+}
+
+.fd-dropdown-item:hover .fd-dropdown-item-shortcut {
+  color: rgba(255, 255, 255, 0.75);
+  opacity: 1;
+}
+
+/* ── Item icon (optional emoji or SVG icon) ── */
+.fd-dropdown-item-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+.fd-dropdown-item:hover .fd-dropdown-item-icon {
+  opacity: 1;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   DROPDOWN SEPARATOR
+───────────────────────────────────────────────────────────────────────────── */
+.fd-dropdown-separator {
+  height: 1px;
+  background: var(--fd-border);
+  margin: 4px 0;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   DROPDOWN SECTION HEADER
+   Non-interactive label grouping items.
+───────────────────────────────────────────────────────────────────────────── */
+.fd-dropdown-header {
+  padding: 6px 12px 3px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--fd-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: default;
+  pointer-events: none;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   SUBMENU INDICATOR
+   Arrow on items that open a nested submenu.
+───────────────────────────────────────────────────────────────────────────── */
+.fd-dropdown-item.fd-has-submenu::after {
+  content: '›';
+  margin-left: auto;
+  font-size: 14px;
+  opacity: 0.55;
+  padding-left: 12px;
+  transition: opacity 100ms ease;
+}
+
+.fd-dropdown-item.fd-has-submenu:hover::after {
+  opacity: 1;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MENUBAR DROPDOWN (built by desktop.js _onMenubarItemClick)
+───────────────────────────────────────────────────────────────────────────── */
+.fd-menubar-dropdown {
+  background: var(--fd-bg-primary);
+  backdrop-filter: blur(var(--fd-blur)) saturate(1.8);
+  -webkit-backdrop-filter: blur(var(--fd-blur)) saturate(1.8);
+  border: 0.5px solid var(--fd-border);
+  border-radius: var(--fd-radius-md);
+  box-shadow: var(--fd-shadow-dropdown);
+  padding: 4px 0;
+  min-width: 200px;
+  z-index: 10000;
+  animation: fd-scale-in 120ms ease forwards;
+  transform-origin: top left;
+}
+
+@keyframes fd-scale-in {
+  from { opacity: 0; transform: scaleY(0.92); }
+  to   { opacity: 1; transform: scaleY(1); }
+}
+
+.fd-menubar-dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 14px;
+  font-size: 13px;
+  font-family: var(--fd-font-ui);
+  color: var(--fd-text-primary);
+  cursor: pointer;
+  transition: background 80ms ease;
+  gap: 24px;
+}
+
+.fd-menubar-dropdown-item:hover {
+  background: var(--fd-accent);
+  color: #fff;
+  margin: 0 4px;
+  padding: 5px 10px;
+  border-radius: var(--fd-radius-sm);
+}
+
+.fd-menubar-dropdown-label {
+  flex: 1;
+  white-space: nowrap;
+}
+
+.fd-menubar-dropdown-shortcut {
+  font-size: 12px;
+  opacity: 0.5;
+  white-space: nowrap;
+}
+
+.fd-menubar-dropdown-item:hover .fd-menubar-dropdown-shortcut {
+  opacity: 0.8;
+}
+
+.fd-menubar-dropdown-separator {
+  height: 1px;
+  background: var(--fd-border);
+  margin: 4px 0;
+}
+

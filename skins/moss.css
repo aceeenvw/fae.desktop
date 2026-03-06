@@ -1,0 +1,123 @@
+/*
+ * fae.desktop — Moss skin
+ * Green earthy color preset
+ * Overrides accent colors and applies deep forest atmospheric touches
+ */
+
+:root[data-fd-skin="moss"] {
+    /* ── Accent palette ─────────────────────────────────────────── */
+    --fd-accent:             #7baf6b;
+    --fd-accent-hover:       #96c288;
+    --fd-accent-glow:        rgba(123, 175, 107, 0.3);
+    --fd-text-accent:        #7baf6b;
+
+    /* ── Background tints — earthy, deep forest ─────────────────── */
+    --fd-bg-primary:         rgba(22, 28, 20, 0.88);
+    --fd-bg-secondary:       rgba(30, 40, 28, 0.75);
+    --fd-bg-tertiary:        rgba(18, 24, 16, 0.6);
+
+    /* ── Borders ────────────────────────────────────────────────── */
+    --fd-border:             rgba(123, 175, 107, 0.15);
+    --fd-border-active:      rgba(123, 175, 107, 0.4);
+
+    /* ── Titlebar — forest canopy tint ──────────────────────────── */
+    --fd-titlebar-bg:        rgba(22, 34, 18, 0.92);
+    --fd-titlebar-text:      rgba(195, 225, 185, 0.9);
+
+    /* ── Dock — mossy bark base ──────────────────────────────────── */
+    --fd-dock-bg:            rgba(18, 28, 16, 0.82);
+    --fd-dock-border:        rgba(123, 175, 107, 0.18);
+    --fd-shadow-dock:        0 -2px 32px rgba(123, 175, 107, 0.1),
+                             0 8px 48px rgba(0, 0, 0, 0.55);
+
+    /* ── Menu bar ───────────────────────────────────────────────── */
+    --fd-menubar-bg:         rgba(16, 24, 14, 0.92);
+    --fd-menubar-text:       rgba(185, 220, 170, 0.88);
+
+    /* ── Window shadow with moss tint ───────────────────────────── */
+    --fd-shadow-window:      0 8px 32px rgba(0, 0, 0, 0.6),
+                             0 0 0 1px rgba(123, 175, 107, 0.08),
+                             0 0 48px rgba(123, 175, 107, 0.05);
+}
+
+/* ── Titlebar highlight — filtered sunlight through leaves ─────── */
+:root[data-fd-skin="moss"] .fd-window-titlebar {
+    background: linear-gradient(
+        180deg,
+        rgba(123, 175, 107, 0.07) 0%,
+        transparent 100%
+    );
+    border-bottom-color: rgba(123, 175, 107, 0.12);
+}
+
+/* ── Titlebar title text — fern green tint ──────────────────────── */
+:root[data-fd-skin="moss"] .fd-window-title {
+    color: rgba(200, 230, 188, 0.85);
+    text-shadow: 0 0 12px rgba(123, 175, 107, 0.2);
+}
+
+/* ── Active window — moss border glow ──────────────────────────── */
+:root[data-fd-skin="moss"] .fd-window.fd-focused {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(123, 175, 107, 0.25),
+                0 0 24px rgba(123, 175, 107, 0.08);
+}
+
+/* ── Dock icon hover — verdant glow ─────────────────────────────── */
+:root[data-fd-skin="moss"] .fd-dock-icon:hover {
+    filter: drop-shadow(0 0 8px rgba(123, 175, 107, 0.5));
+}
+
+/* ── Dock active indicator dot — moss accent ────────────────────── */
+:root[data-fd-skin="moss"] .fd-dock-indicator {
+    background: radial-gradient(
+        circle,
+        rgba(123, 175, 107, 0.9) 0%,
+        rgba(123, 175, 107, 0.3) 70%,
+        transparent 100%
+    );
+    box-shadow: 0 0 6px rgba(123, 175, 107, 0.6);
+}
+
+/* ── Dock ambient glow strip — deep forest underglow ────────────── */
+:root[data-fd-skin="moss"] #fd-dock::before {
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(123, 175, 107, 0.07) 30%,
+        rgba(123, 175, 107, 0.11) 50%,
+        rgba(123, 175, 107, 0.07) 70%,
+        transparent 100%
+    );
+}
+
+/* ── Menu bar separator ──────────────────────────────────────────── */
+:root[data-fd-skin="moss"] #fd-menubar {
+    border-bottom: 1px solid rgba(123, 175, 107, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(123, 175, 107, 0.04);
+}
+
+/* ── Scrollbar tint ──────────────────────────────────────────────── */
+:root[data-fd-skin="moss"] .fd-window-content::-webkit-scrollbar-thumb {
+    background: rgba(123, 175, 107, 0.25);
+}
+:root[data-fd-skin="moss"] .fd-window-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(123, 175, 107, 0.4);
+}
+
+/* ── Button accent states ────────────────────────────────────────── */
+:root[data-fd-skin="moss"] .fd-btn-primary {
+    background: rgba(123, 175, 107, 0.85);
+    box-shadow: 0 0 12px rgba(123, 175, 107, 0.3);
+}
+:root[data-fd-skin="moss"] .fd-btn-primary:hover {
+    background: rgba(150, 194, 136, 0.9);
+    box-shadow: 0 0 18px rgba(123, 175, 107, 0.45);
+}
+
+/* ── Selection highlight ─────────────────────────────────────────── */
+:root[data-fd-skin="moss"] ::selection {
+    background: rgba(123, 175, 107, 0.3);
+    color: #e8f5e2;
+}

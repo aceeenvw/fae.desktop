@@ -1,0 +1,56 @@
+<div class="fd-np-widget">
+  <!-- Album art -->
+  <div class="fd-np-art-wrap">
+    <div class="fd-np-art-bg"></div>
+    <div class="fd-np-art">
+      <img class="fd-np-art-img" src="" alt="Album art" />
+      <div class="fd-np-art-placeholder">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="12" r="10"/>
+          <circle cx="12" cy="12" r="3"/>
+          <line x1="12" y1="2" x2="12" y2="9"/>
+          <line x1="12" y1="15" x2="12" y2="22"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info + controls -->
+  <div class="fd-np-info">
+    <div class="fd-np-track">
+      <div class="fd-np-title" title="">untitled track</div>
+      <div class="fd-np-artist" title="">unknown artist</div>
+    </div>
+
+    <div class="fd-np-controls-row">
+      <!-- Play/Pause pill -->
+      <button class="fd-np-playpause" title="Play / Pause">
+        <!-- play icon shown when paused -->
+        <svg class="fd-np-icon-play" width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+          <polygon points="5,3 19,12 5,21"/>
+        </svg>
+        <!-- pause icon shown when playing -->
+        <svg class="fd-np-icon-pause" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" hidden>
+          <rect x="6" y="4" width="4" height="16"/>
+          <rect x="14" y="4" width="4" height="16"/>
+        </svg>
+      </button>
+
+      <!-- Time display -->
+      <div class="fd-np-time-wrap">
+        <span class="fd-np-current">0:00</span>
+        <span class="fd-np-sep">/</span>
+        <span class="fd-np-total">3:24</span>
+      </div>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="fd-np-progress-track">
+      <div class="fd-np-progress-fill"></div>
+      <div class="fd-np-progress-thumb"></div>
+    </div>
+  </div>
+
+  <!-- Hidden audio element for functional mode -->
+  <audio class="fd-np-audio" preload="none"></audio>
+</div>

@@ -1,0 +1,240 @@
+/**
+ * fae.desktop — Chat Overrides
+ * =============================
+ * Styles that integrate SillyTavern's native #sheld chat UI cleanly
+ * inside a fae.desktop window. These rules normalize ST's layout so
+ * the chat fills its fd-window container properly, and provide the
+ * four chat alignment modes: left, right, center, full.
+ *
+ * All selectors are scoped to body.fd-active or #fd-chat to avoid
+ * interfering with SillyTavern's original layout when desktop mode is off.
+ */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CHAT WINDOW IDENTITY
+   #fd-chat is the .fd-window element created for the chat.
+───────────────────────────────────────────────────────────────────────────── */
+
+/* Remove default window padding from the chat content area —
+   ST's own chat UI manages its own internal spacing. */
+#fd-chat .fd-window-content {
+  padding: 0;
+  overflow: hidden; /* ST's #chat handles scrolling internally */
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   ST SHELD LAYOUT INSIDE WINDOW
+   #sheld is ST's chat scaffold: it holds the message list (#chat)
+   and the input form (#form_sheld) in a flex column.
+───────────────────────────────────────────────────────────────────────────── */
+#fd-chat #sheld {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  /* Remove any ST-injected padding/margin */
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Message list: grows to fill available space, scrolls internally */
+#fd-chat #chat {
+  flex: 1 1 auto !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  min-height: 0 !important; /* flex child fix */
+
+  /* Thin scrollbar matching theme */
+  scrollbar-width: thin;
+  scrollbar-color: var(--fd-border) transparent;
+}
+
+#fd-chat #chat::-webkit-scrollbar {
+  width: 5px;
+}
+
+#fd-chat #chat::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#fd-chat #chat::-webkit-scrollbar-thumb {
+  background: var(--fd-border);
+  border-radius: var(--fd-radius-full);
+}
+
+#fd-chat #chat::-webkit-scrollbar-thumb:hover {
+  background: var(--fd-border-active);
+}
+
+/* Input form: always at the bottom, never shrinks */
+#fd-chat #form_sheld {
+  flex-shrink: 0 !important;
+  margin: 0 !important;
+}
+
+/* Ensure ST's send button area looks clean */
+#fd-chat #send_but_sheld {
+  flex-shrink: 0;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   ST CHROME HIDDEN IN DESKTOP MODE
+───────────────────────────────────────────────────────────────────────────── */
+
+/* Top navigation bar — replaced by fae.desktop menubar */
+body.fd-active #top-bar {
+  display: none !important;
+}
+
+/* ST's background wrapper — replaced by fae.desktop wallpaper */
+body.fd-active #bg_custom {
+  display: none !important;
+}
+
+/* Optionally hide the ST left/right nav toggle buttons from
+   the chat area, as they're accessible via dock/menubar instead */
+body.fd-active .drawer-toggle {
+  display: none !important;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   CHAT ALIGNMENT MODES
+   Applied via data-fd-align attribute on #fd-chat (.fd-window).
+   All modes are position: absolute within #fd-workspace.
+───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Left — chat panel docked to left side ── */
+#fd-chat.fd-chat-align-left {
+  left: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 60% !important;
+  height: auto !important;
+  border-radius: 0 var(--fd-radius-xl) var(--fd-radius-xl) 0 !important;
+  transform: none !important;
+}
+
+#fd-chat.fd-chat-align-left .fd-titlebar {
+  border-radius: 0 var(--fd-radius-xl) 0 0 !important;
+}
+
+/* ── Right — chat panel docked to right side ── */
+#fd-chat.fd-chat-align-right {
+  right: 0 !important;
+  left: auto !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 60% !important;
+  height: auto !important;
+  border-radius: var(--fd-radius-xl) 0 0 var(--fd-radius-xl) !important;
+  transform: none !important;
+}
+
+#fd-chat.fd-chat-align-right .fd-titlebar {
+  border-radius: var(--fd-radius-xl) 0 0 0 !important;
+}
+
+/* ── Center — chat panel floats in the center ── */
+#fd-chat.fd-chat-align-center {
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 70% !important;
+  height: auto !important;
+  border-radius: 0 0 var(--fd-radius-xl) var(--fd-radius-xl) !important;
+}
+
+#fd-chat.fd-chat-align-center .fd-titlebar {
+  border-radius: 0 !important;
+}
+
+/* ── Full — chat panel fills the entire workspace ── */
+#fd-chat.fd-chat-align-full {
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 0 !important;
+  transform: none !important;
+}
+
+#fd-chat.fd-chat-align-full .fd-titlebar {
+  border-radius: 0 !important;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MESSAGE STYLING ENHANCEMENTS
+   Subtle improvements to ST's message bubbles when inside fae.desktop.
+   These use existing ST class names.
+───────────────────────────────────────────────────────────────────────────── */
+
+/* Remove hard background from individual messages when we have glass windows */
+body.fd-active .mes {
+  --mes-bg: transparent;
+}
+
+/* Timestamp hover reveal */
+body.fd-active.fd-timestamps-hover .mes_block .timestamp {
+  opacity: 0;
+  transition: opacity var(--fd-transition-fast);
+}
+
+body.fd-active.fd-timestamps-hover .mes:hover .mes_block .timestamp {
+  opacity: 1;
+}
+
+/* ── Compact message mode ── */
+body.fd-active.fd-chat-compact .mes {
+  margin-bottom: 4px !important;
+}
+
+body.fd-active.fd-chat-compact .mes_text {
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+}
+
+/* ── Split layout — user messages right, AI messages left ── */
+body.fd-active.fd-chat-split .mes.user_mes {
+  flex-direction: row-reverse;
+}
+
+body.fd-active.fd-chat-split .mes.user_mes .mes_block {
+  align-items: flex-end;
+  text-align: right;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   ST PANEL WINDOWS (right-nav, left-nav wrapped as fd-windows)
+   When ST's side panels are wrapped in fae.desktop windows.
+───────────────────────────────────────────────────────────────────────────── */
+
+/* Right navigation panel wrapped as a window */
+#fd-right-panel .fd-window-content {
+  padding: 0;
+}
+
+#fd-right-panel #right-nav-panel {
+  height: 100%;
+  width: 100% !important;
+  position: static !important;
+  display: flex !important;
+  flex-direction: column;
+}
+
+/* Left navigation panel wrapped as a window */
+#fd-left-panel .fd-window-content {
+  padding: 0;
+}
+
+#fd-left-panel #left-nav-panel {
+  height: 100%;
+  width: 100% !important;
+  position: static !important;
+  display: flex !important;
+  flex-direction: column;
+}
