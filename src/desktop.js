@@ -140,6 +140,7 @@ export async function init() {
         await enable();
     } else {
         console.log('[fae.desktop] desktop.init: extension disabled in settings, skipping enable()');
+                        _showReEnableButton();
     }
 
     console.log('[fae.desktop] desktop.init: done');
